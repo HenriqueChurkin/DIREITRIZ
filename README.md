@@ -6,19 +6,6 @@ Branch do Vitor para a parte de comunidade do projeto DIREITRIZ.
 
 A funcionalidade de ranking da comunidade está terminada nesta branch.
 
-## O que foi feito
-
-- Separação entre backend e frontend.
-- Backend em Python servindo a API do ranking.
-- Frontend em React com HTML/CSS.
-- Tela principal limpa para outras partes do projeto.
-- Menu lateral com acesso à comunidade.
-- Ranking da comunidade centralizado, com avatares, XP, dias de ofensiva e barras de progresso verdes.
-- Comportamento de navegação ajustado:
-  - clicar em comunidade abre o ranking;
-  - clicar novamente em comunidade mantém o ranking aberto;
-  - clicar em outro ícone fecha o ranking.
-
 ## Estrutura
 
 ```text
