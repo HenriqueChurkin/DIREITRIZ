@@ -1,7 +1,7 @@
-# DIREITRIZ - Comunidade
-
-Branch do Vitor para a parte de comunidade do projeto DIREITRIZ.
+# DIREITRIZ
 
 ## Status
 
-A funcionalidade de ranking da comunidade está terminada nesta branch.
+Pomodoro feito.
+
+O Pomodoro está pronto com foco, pausa, pausa longa, contagem de ciclos, reset, pular etapa e modo personalizado.
