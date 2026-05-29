@@ -1,1 +1,1 @@
-﻿Pomodoro pronto
+Pomodoro pronto
