@@ -1,53 +1,163 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+const LEVELS = {
+  iniciante: {
+    label: 'Iniciante',
+    focus: 25,
+    shortBreak: 5,
+    longBreak: 15,
+  },
+  intermediario: {
+    label: 'Intermediário',
+    focus: 45,
+    shortBreak: 5,
+    longBreak: 15,
+  },
+  experiente: {
+    label: 'Experiente',
+    focus: 50,
+    shortBreak: 10,
+    longBreak: 20,
+  },
+  personalizado: {
+    label: 'Personalizado',
+    focus: 30,
+    shortBreak: 5,
+    longBreak: 15,
+  },
+};
+
+const SUBJECTS = {
+  'Legislação Federal': ['Decretos', 'Leis Ordinárias', 'Emendas'],
+  'Direito Constitucional': ['Direitos Fundamentais', 'Organização do Estado', 'Controle de Constitucionalidade'],
+  'Direito Civil': ['Contratos', 'Responsabilidade Civil', 'Direitos Reais'],
+};
+
+const MODES = {
+  focus: 'FOCO',
+  shortBreak: 'PAUSA',
+  longBreak: 'PAUSA LONGA',
+};
+
+function clampMinutes(value, fallback) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(Math.max(Math.round(parsed), 1), 180);
+}
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
 
 export default function PomodoroPage() {
-  const [timeLeft, setTimeLeft] = useState(45 * 60); // 45 minutos
+  const [subject, setSubject] = useState('Legislação Federal');
+  const [topic, setTopic] = useState('Decretos');
+  const [level, setLevel] = useState('intermediario');
+  const [customFocus, setCustomFocus] = useState(30);
+  const [customBreak, setCustomBreak] = useState(5);
+  const [mode, setMode] = useState('focus');
+  const [timeLeft, setTimeLeft] = useState(LEVELS.intermediario.focus * 60);
   const [isActive, setIsActive] = useState(false);
-  const [nivel, setNivel] = useState('experiente');
+  const [completedFocus, setCompletedFocus] = useState(0);
 
-  // Lógica do Timer
+  const config = useMemo(() => {
+    if (level !== 'personalizado') return LEVELS[level];
+
+    return {
+      ...LEVELS.personalizado,
+      focus: clampMinutes(customFocus, LEVELS.personalizado.focus),
+      shortBreak: clampMinutes(customBreak, LEVELS.personalizado.shortBreak),
+      longBreak: Math.max(clampMinutes(customBreak, LEVELS.personalizado.shortBreak) * 3, 10),
+    };
+  }, [customBreak, customFocus, level]);
+
+  const totalSeconds = config[mode] * 60;
+  const progress = totalSeconds > 0 ? timeLeft / totalSeconds : 0;
+  const nextBreakMinutes = completedFocus > 0 && completedFocus % 4 === 3 ? config.longBreak : config.shortBreak;
+  const isBreak = mode !== 'focus';
+  const subjects = Object.keys(SUBJECTS);
+  const topics = SUBJECTS[subject];
+
   useEffect(() => {
-    let interval = null;
-    if (isActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      clearInterval(interval);
-      setIsActive(false);
-      alert("Tempo esgotado! Hora da pausa.");
-    } else {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [isActive, timeLeft]);
+    setTopic(SUBJECTS[subject][0]);
+  }, [subject]);
 
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  useEffect(() => {
+    setIsActive(false);
+    setMode('focus');
+    setTimeLeft(config.focus * 60);
+  }, [config.focus, config.shortBreak, config.longBreak]);
+
+  useEffect(() => {
+    if (!isActive) return undefined;
+
+    const interval = setInterval(() => {
+      setTimeLeft((current) => Math.max(current - 1, 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isActive]);
+
+  useEffect(() => {
+    if (timeLeft !== 0) return;
+
+    setIsActive(false);
+
+    if (mode === 'focus') {
+      const nextCompleted = completedFocus + 1;
+      const nextMode = nextCompleted % 4 === 0 ? 'longBreak' : 'shortBreak';
+      setCompletedFocus(nextCompleted);
+      setMode(nextMode);
+      setTimeLeft(config[nextMode] * 60);
+      return;
+    }
+
+    setMode('focus');
+    setTimeLeft(config.focus * 60);
+  }, [completedFocus, config, mode, timeLeft]);
+
+  const startPause = () => setIsActive((current) => !current);
+
+  const resetTimer = () => {
+    setIsActive(false);
+    setMode('focus');
+    setTimeLeft(config.focus * 60);
   };
 
-  // Níveis disponíveis com as exatas labels da imagem
-  const niveis = [
-    { id: 'iniciante', label: 'Iniciante' },
-    { id: 'intermediario', label: 'Intermediário' },
-    { id: 'experiente', label: 'Experiente' },
-    { id: 'personalizado', label: 'Personalizado' }
-  ];
+  const skipStep = () => {
+    setIsActive(false);
+
+    if (mode === 'focus') {
+      const nextCompleted = completedFocus + 1;
+      const nextMode = nextCompleted % 4 === 0 ? 'longBreak' : 'shortBreak';
+      setCompletedFocus(nextCompleted);
+      setMode(nextMode);
+      setTimeLeft(config[nextMode] * 60);
+      return;
+    }
+
+    setMode('focus');
+    setTimeLeft(config.focus * 60);
+  };
+
+  const clearCycle = () => {
+    setCompletedFocus(0);
+    resetTimer();
+  };
 
   return (
     <div className="pomodoro-page">
       <style>{`
         .pomodoro-page {
           padding: 40px 60px;
-          height: 100%;
+          min-height: 100%;
           display: flex;
           flex-direction: column;
           font-family: "Montserrat", Arial, sans-serif;
         }
 
-        /* Título Exato: POMODORO com ! vermelho */
         .page-title {
           font-size: 24px;
           font-weight: 700;
@@ -61,37 +171,39 @@ export default function PomodoroPage() {
           color: #d90000;
         }
 
-        /* Container Principal Azul Escuro */
         .main-card {
-          background-color: #081724; /* Azul escuro da imagem */
+          background-color: #081724;
           flex: 1;
           border-radius: 4px;
-          display: flex;
+          display: grid;
+          grid-template-columns: minmax(340px, 480px) minmax(430px, 1fr);
           align-items: center;
-          justify-content: space-between;
-          padding: 0 100px;
-          min-height: 500px;
+          gap: 80px;
+          padding: 48px 7vw;
+          min-height: 560px;
         }
 
-        /* ─── LADO ESQUERDO: CONTROLES ─── */
         .controls-section {
-          width: 380px;
+          width: 100%;
         }
 
         .input-group {
-          margin-bottom: 30px;
+          margin-bottom: 28px;
         }
 
-        .input-group label {
+        .input-group label,
+        .custom-label {
           display: block;
           color: #ffffff;
           font-size: 14px;
-          font-weight: 400;
+          font-weight: 500;
           margin-bottom: 10px;
         }
 
-        .custom-select {
+        .custom-select,
+        .custom-number {
           width: 100%;
+          min-height: 45px;
           padding: 12px 16px;
           border-radius: 6px;
           border: none;
@@ -99,21 +211,23 @@ export default function PomodoroPage() {
           color: #202020;
           font-size: 15px;
           font-family: inherit;
-          appearance: none;
           outline: none;
+        }
+
+        .custom-select {
+          appearance: none;
           cursor: pointer;
-          /* Ícone de chevron para o select */
           background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
           background-repeat: no-repeat;
           background-position: right 12px center;
           background-size: 20px;
         }
 
-        /* Estilização dos Radio Buttons (Nível) */
         .nivel-row {
           display: flex;
-          gap: 25px;
-          margin-top: 20px;
+          flex-wrap: wrap;
+          gap: 18px 24px;
+          margin-top: 18px;
         }
 
         .nivel-item {
@@ -122,6 +236,9 @@ export default function PomodoroPage() {
           align-items: center;
           gap: 8px;
           cursor: pointer;
+          border: 0;
+          background: transparent;
+          padding: 0;
         }
 
         .radio-dot {
@@ -132,7 +249,6 @@ export default function PomodoroPage() {
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s;
         }
 
         .radio-dot.active {
@@ -143,22 +259,57 @@ export default function PomodoroPage() {
           content: "";
           width: 8px;
           height: 8px;
-          background-color: #0070b8; /* Centro azul */
+          background-color: #0070b8;
           border-radius: 50%;
         }
 
         .nivel-item span {
-          color: #b0b8c0;
+          color: #d8e0e8;
           font-size: 10px;
           font-weight: 500;
         }
 
-        /* ─── LADO DIREITO: TIMER ─── */
+        .custom-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+          margin-top: 22px;
+        }
+
+        .session-summary {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 10px;
+          margin-top: 8px;
+        }
+
+        .summary-item {
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 6px;
+          padding: 10px;
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        .summary-item strong {
+          display: block;
+          font-size: 18px;
+          line-height: 1;
+        }
+
+        .summary-item span {
+          display: block;
+          margin-top: 5px;
+          color: #b9c8d4;
+          font-size: 10px;
+        }
+
         .timer-section {
           display: flex;
           flex-direction: column;
           align-items: center;
-          position: relative;
+          justify-self: center;
+          width: min(100%, 470px);
         }
 
         .timer-visual {
@@ -176,7 +327,7 @@ export default function PomodoroPage() {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          margin-top: 20px; /* Ajuste visual para o centro do arco */
+          margin-top: 20px;
         }
 
         .timer-data h2 {
@@ -188,39 +339,96 @@ export default function PomodoroPage() {
           line-height: 1;
         }
 
-        .pausa-label {
-          font-size: 12px;
-          font-weight: 600;
-          color: #ffffff;
+        .mode-label {
+          font-size: 13px;
+          font-weight: 700;
+          color: ${isBreak ? '#28d07d' : '#ffffff'};
           letter-spacing: 1px;
           margin: 15px 0 2px 0;
         }
 
-        .pausa-time {
+        .break-time {
           font-size: 16px;
           font-weight: 700;
-          color: #d90000;
+          color: #ff2d2d;
           margin: 0;
         }
 
-        /* Botão Iniciar */
-        .btn-iniciar {
-          background-color: #b80000;
+        .timer-actions {
+          display: flex;
+          gap: 12px;
+          justify-content: center;
+          flex-wrap: wrap;
+          margin-top: -15px;
+          z-index: 10;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+          min-width: 130px;
+          padding: 12px 24px;
           color: #ffffff;
-          border: 1px solid rgba(255, 255, 255, 0.4); /* Borda sutil como na imagem */
-          padding: 12px 50px;
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 700;
           border-radius: 6px;
           cursor: pointer;
           letter-spacing: 1px;
-          margin-top: -15px; /* Puxa o botão pra cima, entrando na falha do arco */
-          z-index: 10;
-          transition: background 0.2s;
         }
 
-        .btn-iniciar:hover {
-          background-color: #d90000;
+        .btn-primary {
+          background-color: ${isActive ? '#0056b3' : '#b80000'};
+          border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+          background-color: ${isActive ? '#0070b8' : '#d90000'};
+        }
+
+        .btn-secondary {
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        .cycle-dots {
+          display: flex;
+          gap: 8px;
+          margin-top: 22px;
+        }
+
+        .cycle-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.7);
+          background: transparent;
+        }
+
+        .cycle-dot.done {
+          background: #28d07d;
+          border-color: #28d07d;
+        }
+
+        .cycle-text {
+          margin: 10px 0 0;
+          color: #b9c8d4;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        @media (max-width: 1200px) {
+          .pomodoro-page {
+            padding: 32px;
+          }
+
+          .main-card {
+            grid-template-columns: 1fr;
+            gap: 36px;
+            padding: 36px;
+          }
         }
       `}</style>
 
@@ -229,83 +437,139 @@ export default function PomodoroPage() {
       </h1>
 
       <div className="main-card">
-        {/* Controles à Esquerda */}
         <div className="controls-section">
           <div className="input-group">
-            <label>Assunto:</label>
-            <select className="custom-select">
-              <option>Legislação Federal</option>
-              <option>Direito Constitucional</option>
-              <option>Direito Civil</option>
-            </select>
-          </div>
-
-          <div className="input-group">
-            <label>Tema:</label>
-            <select className="custom-select">
-              <option>Decretos</option>
-              <option>Leis Ordinárias</option>
-              <option>Emendas</option>
-            </select>
-          </div>
-
-          <div className="input-group">
-            <label>Nível:</label>
-            <div className="nivel-row">
-              {niveis.map((op) => (
-                <div 
-                  key={op.id} 
-                  className="nivel-item" 
-                  onClick={() => setNivel(op.id)}
-                >
-                  <div className={`radio-dot ${nivel === op.id ? 'active' : ''}`}></div>
-                  <span>{op.label}</span>
-                </div>
+            <label htmlFor="subject">Assunto:</label>
+            <select id="subject" className="custom-select" value={subject} onChange={(event) => setSubject(event.target.value)}>
+              {subjects.map((item) => (
+                <option key={item}>{item}</option>
               ))}
+            </select>
+          </div>
+
+          <div className="input-group">
+            <label htmlFor="topic">Tema:</label>
+            <select id="topic" className="custom-select" value={topic} onChange={(event) => setTopic(event.target.value)}>
+              {topics.map((item) => (
+                <option key={item}>{item}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="input-group">
+            <span className="custom-label">Nível:</span>
+            <div className="nivel-row">
+              {Object.entries(LEVELS).map(([id, option]) => (
+                <button key={id} type="button" className="nivel-item" onClick={() => setLevel(id)}>
+                  <div className={`radio-dot ${level === id ? 'active' : ''}`} />
+                  <span>{option.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {level === 'personalizado' && (
+              <div className="custom-grid">
+                <label>
+                  <span className="custom-label">Foco</span>
+                  <input
+                    className="custom-number"
+                    type="number"
+                    min="1"
+                    max="180"
+                    value={customFocus}
+                    onChange={(event) => setCustomFocus(event.target.value)}
+                  />
+                </label>
+                <label>
+                  <span className="custom-label">Pausa</span>
+                  <input
+                    className="custom-number"
+                    type="number"
+                    min="1"
+                    max="60"
+                    value={customBreak}
+                    onChange={(event) => setCustomBreak(event.target.value)}
+                  />
+                </label>
+              </div>
+            )}
+          </div>
+
+          <div className="session-summary">
+            <div className="summary-item">
+              <strong>{config.focus}m</strong>
+              <span>Foco</span>
+            </div>
+            <div className="summary-item">
+              <strong>{config.shortBreak}m</strong>
+              <span>Pausa</span>
+            </div>
+            <div className="summary-item">
+              <strong>{completedFocus}</strong>
+              <span>Ciclos</span>
             </div>
           </div>
         </div>
 
-        {/* Relógio à Direita */}
         <div className="timer-section">
           <div className="timer-visual">
-            <svg width="360" height="360" viewBox="0 0 320 320">
-              {/* Cálculo do Arco:
-                Raio(r) = 130
-                Circunferência = 2 * PI * 130 = 816.8
-                Queremos um arco de 270 graus (75% do círculo), deixando 25% de buraco em baixo.
-                75% de 816.8 = 612.6
-                25% de 816.8 = 204.2
-                strokeDasharray = "612.6 204.2"
-                transform="rotate(135 160 160)" gira o círculo para a falha ficar centralizada embaixo.
-              */}
+            <svg width="360" height="360" viewBox="0 0 320 320" aria-hidden="true">
               <circle
                 cx="160"
                 cy="160"
                 r="130"
                 fill="none"
-                stroke="#ffffff"
+                stroke="rgba(255, 255, 255, 0.16)"
                 strokeWidth="32"
                 strokeDasharray="612.6 204.2"
+                transform="rotate(135 160 160)"
+              />
+              <circle
+                cx="160"
+                cy="160"
+                r="130"
+                fill="none"
+                stroke={isBreak ? '#28d07d' : '#ffffff'}
+                strokeWidth="32"
+                strokeDasharray={`${612.6 * progress} ${816.8 - 612.6 * progress}`}
                 strokeDashoffset="0"
                 transform="rotate(135 160 160)"
                 strokeLinecap="butt"
               />
             </svg>
-            
+
             <div className="timer-data">
               <h2>{formatTime(timeLeft)}</h2>
-              <p className="pausa-label">PAUSA</p>
-              <p className="pausa-time">05:00</p>
+              <p className="mode-label">{MODES[mode]}</p>
+              <p className="break-time">{mode === 'focus' ? `${nextBreakMinutes.toString().padStart(2, '0')}:00` : 'Volte ao foco'}</p>
             </div>
           </div>
 
-          <button 
-            className="btn-iniciar" 
-            onClick={() => setIsActive(!isActive)}
-          >
-            {isActive ? 'PAUSAR' : 'INICIAR'}
-          </button>
+          <div className="timer-actions">
+            <button className="btn-primary" type="button" onClick={startPause}>
+              {isActive ? 'PAUSAR' : 'INICIAR'}
+            </button>
+            <button className="btn-secondary" type="button" onClick={resetTimer}>
+              RESETAR
+            </button>
+            <button className="btn-secondary" type="button" onClick={skipStep}>
+              PULAR
+            </button>
+          </div>
+
+          <div className="cycle-dots" aria-label="Ciclos do Pomodoro">
+            {[0, 1, 2, 3].map((item) => (
+              <span key={item} className={`cycle-dot ${completedFocus % 4 > item ? 'done' : ''}`} />
+            ))}
+          </div>
+          <p className="cycle-text">
+            A cada 4 ciclos completos, a pausa longa entra automaticamente.
+          </p>
+          {completedFocus > 0 && (
+            <button className="btn-secondary" type="button" onClick={clearCycle}>
+              ZERAR CICLOS
+            </button>
+          )}
         </div>
       </div>
     </div>
