@@ -145,9 +145,15 @@ export default function PageLayout({ pages, activeNav, setActiveNav, onLogout })
         /* ========================================= */
         
         @media (max-width: 1224px) {
-          .app-shell { min-width: auto; min-height: auto; width: 100vw; height: 100vh; }
+          .app-shell { 
+            min-width: auto; 
+            min-height: auto; 
+            width: 100vw; 
+            /* O 'dvh' é a mágica: ele ajusta a altura dinamicamente, descontando a barra do celular! */
+            height: 100dvh; 
+          }
           .premium { right: 180px; }
-          .user-name { display: none; } /* Oculta nome no tablet para evitar encavalar */
+          .user-name { display: none; }
           .avatar { right: 80px; }
           .top-bell { right: 25px; }
           .popup-user { right: 80px; }
@@ -166,34 +172,38 @@ export default function PageLayout({ pages, activeNav, setActiveNav, onLogout })
           .avatar { right: 55px; top: 15px; width: 35px; height: 35px; }
           .top-bell { right: 15px; top: 20px; width: 22px; height: 22px; }
 
-          /* Sidebar ajustada com suporte para SafeArea (botões de navegação do celular) */
+          /* Sidebar agora está FIXADA (fixed) no rodapé do celular */
           .sidebar { 
-            top: auto; 
+            position: fixed; 
+            top: auto; /* ESSA É A LINHA MÁGICA QUE FALTOU E RESOLVE O PROBLEMA */
             bottom: 0; 
+            left: 0;
             width: 100%; 
-            height: auto; /* Deixa a altura flexível para caber o padding */
+            height: auto; 
             min-height: 70px; 
             flex-direction: row; 
             padding-top: 0;
-            padding-bottom: env(safe-area-inset-bottom, 20px); /* Previne sobreposição nos iPhones e Androids modernos */
+            padding-bottom: env(safe-area-inset-bottom, 15px); 
             gap: 0; 
             justify-content: space-around; 
-            z-index: 100; 
+            z-index: 9999; 
             border-top: 1px solid #202020; 
+            background-color: #080808;
           }
           
           .sidebar button { 
             width: 60px; 
-            height: 60px; /* Reduzido de 70px para compensar o padding */
+            height: 60px; 
             margin-top: 5px;
           }
           .sidebar button svg { width: 30px; }
 
-          /* O Workspace também precisa subir mais um pouquinho para não esconder conteúdo atrás da nova barra */
+          /* O Workspace ganha um padding-bottom para o conteúdo não ficar escondido atrás da barra fixa */
           .workspace { 
             left: 0; 
             top: 70px; 
-            bottom: calc(70px + env(safe-area-inset-bottom, 20px)); 
+            bottom: 0;
+            padding-bottom: calc(80px + env(safe-area-inset-bottom, 15px)); 
           }
 
           .popup-user { right: 15px; top: 60px; width: 280px; }
