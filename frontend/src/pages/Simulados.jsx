@@ -56,7 +56,7 @@ const simuladosData = [
 
 const monthNames = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
 
-export default function SimuladosPage() {
+export default function SimuladosPage({ setActiveNav }) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [activeSimulado, setActiveSimulado] = useState(null);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0); 
@@ -367,7 +367,15 @@ export default function SimuladosPage() {
                 AGENDAR
               </button>
             </div>
-            <button className="btn-header btn-aprendizado">MEU APRENDIZADO</button>
+            <button 
+              className="btn-header btn-aprendizado"
+              onClick={() => {
+    console.log("Tentando navegar para:", 2);
+    setActiveNav(2);
+  }}
+>
+              MEU APRENDIZADO
+              </button>
           </div>
 
           <div className="main-board">
