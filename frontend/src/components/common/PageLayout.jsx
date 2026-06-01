@@ -47,8 +47,9 @@ const sidebarItems = [
 ]
 
 export default function PageLayout({ pages, activeNav, setActiveNav }) {
-  const [showPremium,    setShowPremium]    = useState(false)
-  const [showUserPopup,  setShowUserPopup]  = useState(false)
+  const [showPremium, setShowPremium] = useState(false)
+  const [showUnavailablePopup, setShowUnavailablePopup] = useState(false)
+  const [showUserPopup, setShowUserPopup] = useState(false)
   const [showNotifPopup, setShowNotifPopup] = useState(false)
 
   const [streak, setStreak] = useState(26);
@@ -230,18 +231,40 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
           </div>
         )}
 
+        {/* MODAL PREMIUM */}
         {showPremium && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowPremium(false)}>
             <div style={{ background: '#fff', padding: '32px', borderRadius: '12px', width: '400px', textAlign: 'center', position: 'relative' }} onClick={e => e.stopPropagation()}>
               <button style={{ position: 'absolute', top: '12px', right: '16px', fontSize: '24px', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => setShowPremium(false)}>×</button>
               <h2 style={{ marginTop: 0 }}>Desbloqueie o Premium</h2>
-              <p style={{ color: '#666' }}>Tenha acesso a simulados ilimitados, trilhas personalizadas e recursos exclusivos.</p>
+              <p style={{ color: '#666', marginBottom: '30px' }}>Tenha acesso a simulados ilimitados, trilhas personalizadas e recursos exclusivos.</p>
               
-              <div style={{ width: '100%', height: '200px', background: 'linear-gradient(45deg, #ffd700, #ff8c00)', borderRadius: '8px', margin: '20px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 'bold' }}>
-                IMAGEM DE COMPRA AQUI
-              </div>
+              <button 
+                style={{ width: '100%', padding: '14px', background: '#0056b3', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}
+                onClick={() => {
+                  setShowPremium(false);
+                  setShowUnavailablePopup(true);
+                }}
+              >
+                COMPRAR AGORA
+              </button>
+            </div>
+          </div>
+        )}
 
-              <button style={{ width: '100%', padding: '14px', background: '#0056b3', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}>COMPRAR AGORA</button>
+        {/* MODAL DE COMPRA INDISPONÍVEL */}
+        {showUnavailablePopup && (
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowUnavailablePopup(false)}>
+            <div style={{ background: '#fff', padding: '32px', borderRadius: '12px', width: '350px', textAlign: 'center', position: 'relative' }} onClick={e => e.stopPropagation()}>
+              <button style={{ position: 'absolute', top: '12px', right: '16px', fontSize: '24px', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => setShowUnavailablePopup(false)}>×</button>
+              <h3 style={{ marginTop: 0, color: '#202020' }}>Aviso</h3>
+              <p style={{ color: '#666', margin: '20px 0' }}>Compra indisponível no momento.</p>
+              <button 
+                style={{ width: '100%', padding: '12px', background: '#ccc', color: '#333', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}
+                onClick={() => setShowUnavailablePopup(false)}
+              >
+                Fechar
+              </button>
             </div>
           </div>
         )}

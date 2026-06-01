@@ -369,11 +369,8 @@ export default function SimuladosPage({ setActiveNav }) {
             </div>
             <button 
               className="btn-header btn-aprendizado"
-              onClick={() => {
-    console.log("Tentando navegar para:", 2);
-    setActiveNav(2);
-  }}
->
+              onClick={() => setActiveNav(2)}
+              >
               MEU APRENDIZADO
               </button>
           </div>
