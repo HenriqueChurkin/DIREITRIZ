@@ -346,6 +346,96 @@ export default function SimuladosPage({ setActiveNav }) {
         .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -4px; border-width: 4px; border-style: solid; border-color: #081724 transparent transparent transparent; }
         .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; bottom: 130%; /* Sobe um pouquinho fazendo uma animação */ }
 
+        @media (max-width: 1024px) {
+          /* Ajuste da listagem principal para tablets */
+          .simulados-page { padding: 30px 40px; }
+          .main-board { 
+            grid-template-columns: repeat(2, 1fr); 
+            padding: 20px; 
+          }
+          
+          /* Modal de Realização do Simulado */
+          .simulado-body { flex-direction: column; }
+          .simulado-sidebar { 
+            width: 100%; 
+            border-right: none; 
+            border-bottom: 1px solid #e0e0e0; 
+            display: flex; 
+            flex-direction: row; 
+            overflow-x: auto; 
+            padding: 15px; 
+            gap: 10px;
+          }
+          .question-item { 
+            padding: 8px 16px; 
+            border-bottom: none; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 20px; 
+            white-space: nowrap; 
+          }
+          .simulado-content { padding: 30px; }
+          
+          /* Modal de Agendamento (Calendário) */
+          .agenda-modal { 
+            flex-direction: column; 
+            height: 85vh; 
+            overflow-y: auto; 
+          }
+          .agenda-left { 
+            width: 100%; 
+            border-right: none; 
+            border-bottom: 1px solid #f0f0f0; 
+            padding: 25px; 
+            overflow-y: visible;
+          }
+        }
+
+        @media (max-width: 768px) {
+          /* Ajustes gerais do cabeçalho da página */
+          .simulados-page { padding: 20px; }
+          .header-section { 
+            flex-direction: column; 
+            gap: 15px; 
+            align-items: stretch; 
+          }
+          .title-group { 
+            flex-direction: column; 
+            gap: 5px; 
+            align-items: center; 
+          }
+          .page-title { margin-bottom: 10px; text-align: center; font-size: 20px; }
+          
+          /* Botões superiores adaptados para ocupar o espaço disponível */
+          .btn-header { width: 100% !important; }
+          
+          /* Painel de cards passa a uma única coluna em telemóveis */
+          .main-board { 
+            grid-template-columns: 1fr; 
+            gap: 15px; 
+            padding: 15px;
+          }
+          .simulado-card, .placeholder-card { height: 150px; }
+          
+          /* Janela do teste em ecrãs pequenos */
+          .simulado-window { width: 95vw; height: 90vh; }
+          .simulado-content { padding: 20px 15px; }
+          .question-title { font-size: 18px; }
+          .question-text { font-size: 15px; margin-bottom: 20px; }
+          .option-btn { padding: 12px 15px; font-size: 14px; }
+          
+          /* Ajustes do botão Enviar e Mensagem de Feedback */
+          .btn-enviar-wrapper { 
+            flex-direction: column; 
+            gap: 15px; 
+            align-items: center; 
+          }
+          .btn-enviar { width: 100%; }
+          .feedback-msg { margin-right: 0; text-align: center; }
+          
+          /* Ajustes internos do calendário para não quebrar em ecrãs muito estreitos */
+          .cal-day-num { font-size: 11px; }
+          .tag-simulado, .tag-prova { font-size: 8px; padding: 1px 3px; }
+        }
       `}</style>
 
       <div className="simulados-page">

@@ -106,6 +106,38 @@ export default function Login({ onLogin }) {
           font-size: 14px;
           box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
+          @media (max-width: 480px) {
+          .login-container {
+            padding: 20px; /* Garante que a caixa branca não encoste nas bordas do celular */
+          }
+          
+          .login-box {
+            padding: 35px 20px; /* Reduz o espaçamento interno para dar mais espaço ao conteúdo */
+          }
+          
+          .login-logo {
+            height: 55px; /* Reduz levemente o logo */
+            margin-bottom: 20px;
+          }
+          
+          .avatar-container {
+            width: 85px; /* Reduz levemente o avatar */
+            height: 85px;
+          }
+          
+          .welcome-text {
+            font-size: 18px; /* Ajusta o tamanho da fonte do título */
+          }
+          
+          .popup-aviso {
+            /* Centraliza o popup de aviso no celular e dá uma largura adaptável */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            text-align: center;
+            bottom: 20px;
+          }
+        }
       `}</style>
 
       <div className="login-container">

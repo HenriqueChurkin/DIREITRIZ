@@ -246,17 +246,17 @@ export default function DireitodoPage() {
 
   // Listas de Tarefas
   const filosofiaTasks = [
-    { id: 't1', text: "Investigar a origem e a evolução da filosofia do Direito", checked: false },
+    { id: 't1', text: "Investigar a origem e a evolução da Filosofia do Direito", checked: false },
     {
-      id: 't2', text: "Pesquisar o conceito de filosofia do Direito", checked: false,
+      id: 't2', text: "Pesquisar o conceito de Filosofia do Direito", checked: false,
       subTasks: [
-        { id: 's1', text: "Buscar fontes confiáveis sobre filosofia do direito", checked: false },
+        { id: 's1', text: "Buscar fontes confiáveis sobre Filosofia do Direito", checked: false },
         { id: 's2', text: "Anotar definições e conceitos chave encontrados nas fontes", checked: false },
-        { id: 's3', text: "Comparar diferentes perspectivas e interpretações sobre Filoso...", checked: false },
-        { id: 's4', text: "Identificar os principais temas e problemas abordados na Filoso...", checked: false }
+        { id: 's3', text: "Comparar diferentes perspectivas e interpretações sobre Filosofia do Direito", checked: false },
+        { id: 's4', text: "Identificar os principais temas e problemas abordados na Filosofia do Direito", checked: false }
       ]
     },
-    { id: 't3', text: "Identificar os principais filósofos que contribuíram para a dicip...", checked: false }
+    { id: 't3', text: "Identificar os principais filósofos que contribuíram para a diciplina", checked: false }
   ];
 
   const teoriasJusticaTasks = [
@@ -524,6 +524,30 @@ export default function DireitodoPage() {
         .sub-tasks-container::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
 
         .sub-task-row { display: flex; align-items: center; gap: 10px; }
+        @media (max-width: 768px) {
+          .direitodo-page {
+            padding: 20px;
+          }
+          .header-row {
+            flex-wrap: wrap; /* Permite que os itens do cabeçalho se ajustem */
+          }
+          .main-board {
+            flex-direction: column; /* Coloca as colunas uma embaixo da outra */
+            padding: 15px;
+            gap: 20px;
+          }
+          .board-column {
+            max-width: 100%; /* Faz a coluna ocupar 100% da largura no celular */
+          }
+          .premium-card {
+            padding: 0 15px;
+            justify-content: center;
+            text-align: center;
+            height: auto;
+            padding-top: 15px;
+            padding-bottom: 15px;
+          }
+        }
       `}</style>
 
       <div className="direitodo-page">

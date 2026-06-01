@@ -430,6 +430,25 @@ export default function PomodoroPage() {
             padding: 36px;
           }
         }
+          @media (max-width: 768px) {
+          .pomodoro-page {
+            padding: 20px;
+          }
+          .main-card {
+            padding: 24px;
+            gap: 40px;
+          }
+          .timer-visual {
+            width: 260px; /* Reduz o tamanho do relógio no celular */
+            height: 260px;
+          }
+          .timer-data h2 {
+            font-size: 48px; /* Diminui a fonte do tempo para caber no círculo menor */
+          }
+          .session-summary {
+            grid-template-columns: 1fr; /* Coloca os itens do resumo um embaixo do outro, se preferir, ou mantenha 3 colunas reduzindo o texto */
+          }
+        }
       `}</style>
 
       <h1 className="page-title">
@@ -513,7 +532,7 @@ export default function PomodoroPage() {
 
         <div className="timer-section">
           <div className="timer-visual">
-            <svg width="360" height="360" viewBox="0 0 320 320" aria-hidden="true">
+            <svg viewBox="0 0 320 320" aria-hidden="true" style={{ width: '100%', height: '100%' }}>
               <circle
                 cx="160"
                 cy="160"

@@ -247,6 +247,95 @@ export default function Home({ setActiveNav, streak = 26}) {
         .artigo-num { color: #d90000; font-weight: bold;}
         .artigo-desc { font-size: 14px; color: #222; line-height: 1.5; white-space: pre-line; margin: 0; }
         .artigo-loc { font-size: 12px; color: #888; line-height: 1.4; white-space: pre-line; margin-top: 12px; margin-bottom: 0; }
+
+        @media (max-width: 1550px) {
+          .cards-row {
+            flex-direction: column; /* Coloca a coluna da direita por baixo */
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+          }
+          .main-panel-left {
+            width: 100%;
+            height: auto;
+            min-height: 500px;
+          }
+          .col-right {
+            width: 100%;
+            height: auto;
+          }
+          .btn-aprendizado {
+            align-self: flex-start; /* Alinha o botão à esquerda */
+          }
+          .articles {
+            flex-direction: row; /* Os artigos ficam lado a lado para aproveitar a largura */
+          }
+        }
+
+        /* Ajuste intermediário para Tablets pequenos */
+        @media (max-width: 900px) {
+          .articles {
+            flex-direction: column; /* Volta a empilhar os artigos */
+          }
+        }
+
+        /* Ajuste para Telemóveis / Celulares */
+        @media (max-width: 768px) {
+          .home-page {
+            padding: 20px 15px;
+          }
+          .main-panel-left {
+            flex-direction: column; /* O painel de estatísticas vai para cima do Ladder */
+            padding: 20px;
+            gap: 20px;
+          }
+          .stats-col {
+            flex-direction: row; /* Coloca os cards pequenos em linha */
+            flex-wrap: wrap;
+            height: auto;
+            gap: 15px;
+          }
+          .small-card {
+            width: calc(50% - 7.5px); /* Divide em 2 colunas */
+            height: 140px;
+          }
+          .timer-card {
+            width: 100%; /* O card do cronómetro ocupa a linha toda em destaque */
+            height: 160px;
+          }
+          .stat-number {
+            font-size: 42px;
+          }
+          .ladder-card {
+            padding: 30px 20px;
+          }
+          .ladder-title {
+            font-size: 24px;
+            letter-spacing: 2px;
+          }
+          .ladder-desc {
+            max-width: 100%;
+            font-size: 14px;
+          }
+          .btn-jogar-ladder {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 14px;
+          }
+          .btn-aprendizado {
+            width: 100%; /* Botão de aprendizado gigante e fácil de tocar */
+            padding: 15px;
+            font-size: 14px;
+          }
+        }
+
+        /* Ajuste para ecrãs MUITO pequenos (iPhone SE, etc) */
+        @media (max-width: 480px) {
+          .small-card {
+            width: 100%; /* Os cards pequenos ficam um por baixo do outro */
+            height: 130px;
+          }
+        }
       `}</style>
 
       <div className="home-page">

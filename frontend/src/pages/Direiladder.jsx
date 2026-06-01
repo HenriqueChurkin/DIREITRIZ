@@ -409,6 +409,57 @@ export default function DireiladderPage() {
           50% { box-shadow: 0 0 0 12px rgba(217, 119, 6, 0.0); }
         }
         @keyframes scaleIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @media (max-width: 1024px) {
+          /* Transforma a barra lateral de questões do simulado em uma barra superior rolável no tablet/mobile */
+          .simulado-body { flex-direction: column; }
+          .simulado-sidebar { 
+            width: 100%; 
+            border-right: none; 
+            border-bottom: 1px solid #e0e0e0; 
+            display: flex; 
+            flex-direction: row; 
+            overflow-x: auto; 
+            padding: 15px; 
+            gap: 10px;
+          }
+          .question-item { 
+            padding: 8px 16px; 
+            border-bottom: none; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 20px; 
+            white-space: nowrap; 
+          }
+          .simulado-content { padding: 30px; }
+        }
+
+        @media (max-width: 768px) {
+          /* Ajustes gerais de espaçamento da página */
+          .direiladder-page { padding: 20px; }
+          .main-board { padding: 20px; }
+          .page-title { margin-bottom: 25px; }
+          
+          /* Ajuste da Trilha (Duolingo Style) - Reduz o zig-zag para caber na tela */
+          .path-header { flex-direction: column; gap: 15px; align-items: flex-start; margin-bottom: 30px; }
+          .path-node-wrapper:nth-child(even) { transform: translateX(30px); }
+          .path-node-wrapper:nth-child(odd) { transform: translateX(-30px); }
+          .path-node { width: 70px; height: 70px; }
+          
+          /* Ajuste do Modal de Simulado */
+          .simulado-window { width: 95vw; height: 90vh; }
+          .simulado-content { padding: 20px 15px; }
+          .question-title { font-size: 18px; }
+          .question-text { font-size: 15px; margin-bottom: 20px; }
+          .option-btn { padding: 12px 15px; font-size: 14px; }
+          
+          /* Ajuste dos botões de Enviar e do Feedback */
+          .footer-actions { flex-direction: column; gap: 15px; }
+          .btn-enviar { width: 100%; margin-top: 10px; }
+          .feedback-msg { text-align: center; font-size: 14px; }
+          
+          /* Alertas Customizados (Popup de conclusão) */
+          .custom-alert-box { width: 90%; max-width: 350px; padding: 30px 20px; }
+          .custom-alert-title { font-size: 18px; }
+        }
       `}</style>
 
       <div className="direiladder-page">

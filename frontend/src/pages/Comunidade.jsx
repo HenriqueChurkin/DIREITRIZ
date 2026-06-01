@@ -200,6 +200,67 @@ export default function Comunidade() {
           background: linear-gradient(90deg, #0e8f50, #2fd47f);
           border-radius: 999px;
         }
+
+        @media (max-width: 768px) {
+          /* Ajusta o espaçamento geral da página */
+          .comunidade-page {
+            padding: 20px;
+          }
+          
+          /* Centraliza o título no telemóvel */
+          .page-title {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+          }
+
+          /* O card passa a ocupar toda a largura e diminui o padding interno */
+          .ranking-card {
+            padding: 20px 15px;
+            max-width: 100%;
+            border-radius: 12px;
+          }
+
+          /* Ajusta os textos do cabeçalho do card */
+          .ranking-title {
+            font-size: 18px;
+            text-align: center;
+          }
+          .ranking-subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+
+          /* Reduz ligeiramente os espaços internos e fontes de cada linha do ranking */
+          .ranking-row {
+            padding: 10px;
+            gap: 10px;
+          }
+          
+          .rank-number {
+            width: 24px;
+            height: 24px;
+            font-size: 11px;
+          }
+          
+          .rank-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 12px;
+          }
+          
+          .rank-name {
+            font-size: 14px;
+          }
+          
+          .rank-points {
+            font-size: 12px;
+          }
+          
+          .rank-streak {
+            font-size: 10px;
+          }
+        }
       `}</style>
 
       <div className="comunidade-page">

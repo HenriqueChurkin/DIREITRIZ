@@ -17,10 +17,9 @@ export default function App() {
     return <Login onLogin={() => setAutenticado(true)} />
   }
 
-  // ── Transformamos em um "Objeto" em vez de Array ──
+  // Mapeamento seguro das telas por chave
   const telas = {
     'home': <Home key="home" setActiveNav={setTelaAtual} />, 
-    
     0: <Direitodo key="direitodo" />,
     1: <Pomodoro key="pomodoro" />,  
     2: <Direiladder key="direiladder" />,
@@ -32,7 +31,8 @@ export default function App() {
     <PageLayout 
       pages={telas} 
       activeNav={telaAtual} 
-      setActiveNav={setTelaAtual} 
+      setActiveNav={setTelaAtual}
+      onLogout={() => setAutenticado(false)} // Função que faz voltar para o Login
     />
   )
 }

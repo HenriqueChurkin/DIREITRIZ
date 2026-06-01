@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import logoDireitriz from '../../assets/logodireitriz.png';
+import React, { useState, useEffect } from 'react'
+import logoDireitriz from '../../assets/logodireitriz.png'
 
 const IconDireitodo = () => (
   <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,16 +46,17 @@ const sidebarItems = [
   { icon: <IconComunidade />,   label: 'Comunidade' },
 ]
 
-export default function PageLayout({ pages, activeNav, setActiveNav }) {
+// Adicionado o recebimento correto de 'pages' e 'onLogout' aqui nas chaves:
+export default function PageLayout({ pages, activeNav, setActiveNav, onLogout }) {
   const [showPremium, setShowPremium] = useState(false)
   const [showUnavailablePopup, setShowUnavailablePopup] = useState(false)
   const [showUserPopup, setShowUserPopup] = useState(false)
   const [showNotifPopup, setShowNotifPopup] = useState(false)
 
-  const [streak, setStreak] = useState(26);
-  const [showStreakModal, setShowStreakModal] = useState(false);
-  const [hasCompletedToday, setHasCompletedToday] = useState(false);
-  const [animatingStreak, setAnimatingStreak] = useState(false);
+  const [streak, setStreak] = useState(26)
+  const [showStreakModal, setShowStreakModal] = useState(false)
+  const [hasCompletedToday, setHasCompletedToday] = useState(false)
+  const [animatingStreak, setAnimatingStreak] = useState(false)
 
   const toggleUserPopup = () => {
     setShowUserPopup(prev => !prev)
@@ -69,29 +70,28 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
   useEffect(() => {
     const handleActivityCompleted = () => {
       if (!hasCompletedToday) {
-        setHasCompletedToday(true);
+        setHasCompletedToday(true)
         setTimeout(() => {
-          setShowStreakModal(true);
-        }, 600);
+          setShowStreakModal(true)
+        }, 600)
       }
-    };
-
-    window.addEventListener('activityCompleted', handleActivityCompleted);
-    return () => window.removeEventListener('activityCompleted', handleActivityCompleted);
-  }, [hasCompletedToday]);
+    }
+    window.addEventListener('activityCompleted', handleActivityCompleted)
+    return () => window.removeEventListener('activityCompleted', handleActivityCompleted)
+  }, [hasCompletedToday])
 
   useEffect(() => {
     if (showStreakModal) {
       const timer = setTimeout(() => {
-        setAnimatingStreak(true);
-      }, 800); 
-      return () => clearTimeout(timer);
+        setAnimatingStreak(true)
+      }, 800) 
+      return () => clearTimeout(timer)
     }
-  }, [showStreakModal]);
+  }, [showStreakModal])
 
   return (
     <>
-      <style>{`
+    <style>{`
         * { box-sizing: border-box; }
         body { margin: 0; min-height: 100vh; background: #ffffff; font-family: "Montserrat", Arial, sans-serif; color: #202020; }
         button, input { font: inherit; }
@@ -109,7 +109,6 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
         .premium { position: absolute; right: 402px; top: 27px; width: 177px; height: 41px; border: 2px solid #0070b8; border-radius: 4px; background: transparent; color: #ffffff; font-size: 12px; letter-spacing: 0; cursor: pointer; }
         .user-name { position: absolute; right: 228px; top: 43px; font-size: 15px; line-height: 1; }
 
-        /* Estilos do Avatar Atualizados */
         .avatar { position: absolute; right: 119px; top: 25px; width: 45px; height: 45px; border-radius: 50%; overflow: hidden; cursor: pointer; border: none; background: transparent; display: flex; justify-content: center; align-items: center; }
         
         .top-bell { position: absolute; right: 40px; top: 35px; width: 25px; height: 25px; color: #ffffff; cursor: pointer; border: none; background: transparent; }
@@ -133,11 +132,57 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
         .btn-claim-streak { background: #ff575c; color: white; border: none; padding: 14px 30px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; width: 100%; transition: 0.2s; margin-top: 15px; letter-spacing: 1px; }
         .btn-claim-streak:hover { background: #e04a50; }
 
+        /* Classes transformadas de inline styles para os popups (Essencial para manter o design desktop, mas permitir override mobile) */
+        .popup-user { position: absolute; right: 119px; top: 80px; background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 20px; color: #202020; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .popup-notif { position: absolute; right: 40px; top: 70px; background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 20px; color: #202020; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .premium-modal-box { background: #fff; padding: 32px; border-radius: 12px; width: 400px; text-align: center; position: relative; }
+        .unavailable-modal-box { background: #fff; padding: 32px; border-radius: 12px; width: 350px; text-align: center; position: relative; }
+
         @keyframes scaleInStreak { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* ========================================= */
+        /* RESPONSIVIDADE (MOBILE & TABLET)          */
+        /* ========================================= */
+        
+        @media (max-width: 1224px) {
+          .app-shell { min-width: auto; min-height: auto; width: 100vw; height: 100vh; }
+          .premium { right: 180px; }
+          .user-name { display: none; } /* Oculta nome no tablet para evitar encavalar */
+          .avatar { right: 80px; }
+          .top-bell { right: 25px; }
+          .popup-user { right: 80px; }
+        }
+
+        @media (max-width: 768px) {
+          .topbar { height: 70px; }
+          .logo-wrap { left: 15px; top: 12px; width: 50px; height: 40px; }
+          
+          .streak { left: 75px; top: 22px; gap: 8px; }
+          .streak strong { font-size: 24px; }
+          .streak span { display: block; font-size: 11px; line-height: 1.1; } /* Mantém o texto, mas menorzinho */
+          
+          .premium { display: none; } /* Oculta botão de premium para limpar o Header */
+          
+          .avatar { right: 55px; top: 15px; width: 35px; height: 35px; }
+          .top-bell { right: 15px; top: 20px; width: 22px; height: 22px; }
+
+          /* Sidebar vira um Bottom Navigation no Mobile */
+          .sidebar { top: auto; bottom: 0; width: 100%; height: 70px; flex-direction: row; padding-top: 0; gap: 0; justify-content: space-around; z-index: 100; border-top: 1px solid #202020; }
+          .sidebar button { width: 60px; height: 70px; }
+          .sidebar button svg { width: 30px; }
+
+          .workspace { left: 0; top: 70px; bottom: 70px; } /* Ajusta o espaço entre o Header e o Menu inferior */
+
+          /* Ajuste dos Popups para não quebrarem a tela */
+          .popup-user { right: 15px; top: 60px; width: 280px; }
+          .popup-notif { right: 15px; top: 60px; width: 280px; }
+          .premium-modal-box { width: 90%; max-width: 400px; padding: 24px; }
+          .unavailable-modal-box { width: 90%; max-width: 350px; padding: 24px; }
+          .streak-modal-box { width: 90%; max-width: 380px; padding: 30px 20px; }
+        }
       `}</style>
-
+      
       <div className="app-shell">
-
         <header className="topbar">
           <div className="logo-wrap" onClick={() => setActiveNav('home')}>
             <img src={logoDireitriz} alt="Direitriz" className="eagle-logo" />
@@ -154,8 +199,8 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
 
           <div className="user-name">Bento Neves</div>
 
-          {/* ── NOVO AVATAR APLICADO AQUI ── */}
-          <div className="avatar" onClick={toggleUserPopup}>
+          {/* Foto de Perfil com clique */}
+          <div className="avatar" onClick={toggleUserPopup} style={{ cursor: 'pointer' }}>
             <svg width="100%" height="100%" viewBox="0 0 295 295" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
               <circle cx="147.5" cy="147.5" r="141.6" fill="url(#pattern0_579_166)" stroke="#B50404" strokeWidth="11.8"/>
               <defs>
@@ -167,13 +212,42 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
             </svg>
           </div>
 
+          {/* Pop-up do Usuário Corrigido (Posição ajustada para o canto direito) */}
           {showUserPopup && (
-            <div style={{ position: 'absolute', right: '119px', top: '80px', background: '#fff', border: '1px solid #ccc', borderRadius: '8px', padding: '20px', color: '#202020', zIndex: 100, boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+            <div style={{ 
+              position: 'absolute', 
+              right: '80px', 
+              top: '75px', 
+              background: '#fff', 
+              border: '1px solid #ccc', 
+              borderRadius: '8px', 
+              padding: '20px', 
+              color: '#202020', 
+              zIndex: 100, 
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              width: '200px'
+            }}>
               <h4 style={{ margin: '0 0 10px' }}>Meu Perfil</h4>
               <p style={{ margin: '4px 0', fontSize: '14px' }}><strong>Nome:</strong> Bento Neves</p>
               <p style={{ margin: '4px 0', fontSize: '14px' }}><strong>Plano:</strong> Gratuito</p>
-              <p style={{ margin: '4px 0', fontSize: '14px' }}><strong>Ofensiva máx.:</strong> {streak} dias</p>
-              <button style={{ width: '100%', marginTop: '12px', padding: '8px', background: '#f8f8f8', border: '1px solid #ccc', color: '#d90000', cursor: 'pointer' }}>Sair da Conta</button>
+              <p style={{ margin: '4px 0', fontSize: '14px' }}><strong>Ofensiva:</strong> {streak} dias</p>
+              
+              <button 
+                onClick={onLogout}
+                style={{ 
+                  width: '100%', 
+                  marginTop: '12px', 
+                  padding: '8px', 
+                  background: '#f8f8f8', 
+                  border: '1px solid #ccc', 
+                  color: '#d90000', 
+                  cursor: 'pointer',
+                  borderRadius: '4px',
+                  fontWeight: 'bold'
+                }}
+              >
+                Sair da Conta
+              </button>
             </div>
           )}
 
@@ -203,28 +277,22 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
           ))}
         </aside>
 
+        {/* RENDERIZAÇÃO SEGURA E BLINDADA DA TELA ATUAL */}
         <main className="workspace">
-          {pages[activeNav] || null}
+          {pages && pages[activeNav] ? React.cloneElement(pages[activeNav], { streak: streak }) : null}
         </main>
 
+        {/* MODAL OFENSIVA */}
         {showStreakModal && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className="streak-modal-box">
               <h2 className="streak-title">🔥 Ofensiva Estendida!</h2>
               <p className="streak-subtitle">Primeira atividade do dia concluída.</p>
-              
               <div className="streak-number-container">
                 <span className={`streak-num ${animatingStreak ? 'slide-up-out' : ''}`}>26</span>
                 <span className={`streak-num next-num ${animatingStreak ? 'slide-up-in' : ''}`}>27</span>
               </div>
-
-              <button 
-                className="btn-claim-streak" 
-                onClick={() => {
-                  setStreak(27);
-                  setShowStreakModal(false);
-                }}
-              >
+              <button className="btn-claim-streak" onClick={() => { setStreak(27); setShowStreakModal(false); }}>
                 CONTINUAR ESTUDOS
               </button>
             </div>
@@ -238,13 +306,9 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
               <button style={{ position: 'absolute', top: '12px', right: '16px', fontSize: '24px', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => setShowPremium(false)}>×</button>
               <h2 style={{ marginTop: 0 }}>Desbloqueie o Premium</h2>
               <p style={{ color: '#666', marginBottom: '30px' }}>Tenha acesso a simulados ilimitados, trilhas personalizadas e recursos exclusivos.</p>
-              
               <button 
                 style={{ width: '100%', padding: '14px', background: '#0056b3', color: '#fff', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}
-                onClick={() => {
-                  setShowPremium(false);
-                  setShowUnavailablePopup(true);
-                }}
+                onClick={() => { setShowPremium(false); setShowUnavailablePopup(true); }}
               >
                 COMPRAR AGORA
               </button>
@@ -252,23 +316,19 @@ export default function PageLayout({ pages, activeNav, setActiveNav }) {
           </div>
         )}
 
-        {/* MODAL DE COMPRA INDISPONÍVEL */}
+        {/* MODAL INDISPONÍVEL */}
         {showUnavailablePopup && (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowUnavailablePopup(false)}>
             <div style={{ background: '#fff', padding: '32px', borderRadius: '12px', width: '350px', textAlign: 'center', position: 'relative' }} onClick={e => e.stopPropagation()}>
               <button style={{ position: 'absolute', top: '12px', right: '16px', fontSize: '24px', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => setShowUnavailablePopup(false)}>×</button>
               <h3 style={{ marginTop: 0, color: '#202020' }}>Aviso</h3>
               <p style={{ color: '#666', margin: '20px 0' }}>Compra indisponível no momento.</p>
-              <button 
-                style={{ width: '100%', padding: '12px', background: '#ccc', color: '#333', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }}
-                onClick={() => setShowUnavailablePopup(false)}
-              >
+              <button style={{ width: '100%', padding: '12px', background: '#ccc', color: '#333', border: 'none', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => setShowUnavailablePopup(false)}>
                 Fechar
               </button>
             </div>
           </div>
         )}
-
       </div>
     </>
   )
