@@ -159,21 +159,43 @@ export default function PageLayout({ pages, activeNav, setActiveNav, onLogout })
           
           .streak { left: 75px; top: 22px; gap: 8px; }
           .streak strong { font-size: 24px; }
-          .streak span { display: block; font-size: 11px; line-height: 1.1; } /* Mantém o texto, mas menorzinho */
+          .streak span { display: block; font-size: 11px; line-height: 1.1; }
           
-          .premium { display: none; } /* Oculta botão de premium para limpar o Header */
+          .premium { display: none; }
           
           .avatar { right: 55px; top: 15px; width: 35px; height: 35px; }
           .top-bell { right: 15px; top: 20px; width: 22px; height: 22px; }
 
-          /* Sidebar vira um Bottom Navigation no Mobile */
-          .sidebar { top: auto; bottom: 0; width: 100%; height: 70px; flex-direction: row; padding-top: 0; gap: 0; justify-content: space-around; z-index: 100; border-top: 1px solid #202020; }
-          .sidebar button { width: 60px; height: 70px; }
+          /* Sidebar ajustada com suporte para SafeArea (botões de navegação do celular) */
+          .sidebar { 
+            top: auto; 
+            bottom: 0; 
+            width: 100%; 
+            height: auto; /* Deixa a altura flexível para caber o padding */
+            min-height: 70px; 
+            flex-direction: row; 
+            padding-top: 0;
+            padding-bottom: env(safe-area-inset-bottom, 20px); /* Previne sobreposição nos iPhones e Androids modernos */
+            gap: 0; 
+            justify-content: space-around; 
+            z-index: 100; 
+            border-top: 1px solid #202020; 
+          }
+          
+          .sidebar button { 
+            width: 60px; 
+            height: 60px; /* Reduzido de 70px para compensar o padding */
+            margin-top: 5px;
+          }
           .sidebar button svg { width: 30px; }
 
-          .workspace { left: 0; top: 70px; bottom: 70px; } /* Ajusta o espaço entre o Header e o Menu inferior */
+          /* O Workspace também precisa subir mais um pouquinho para não esconder conteúdo atrás da nova barra */
+          .workspace { 
+            left: 0; 
+            top: 70px; 
+            bottom: calc(70px + env(safe-area-inset-bottom, 20px)); 
+          }
 
-          /* Ajuste dos Popups para não quebrarem a tela */
           .popup-user { right: 15px; top: 60px; width: 280px; }
           .popup-notif { right: 15px; top: 60px; width: 280px; }
           .premium-modal-box { width: 90%; max-width: 400px; padding: 24px; }
