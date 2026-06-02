@@ -401,6 +401,8 @@ export default function SimuladosPage({ setActiveNav }) {
         .btn-dict-category.active { background: #081724; color: #ffffff; border: 2px solid #081724; box-shadow: 0 4px 10px rgba(8, 23, 36, 0.2); }
         .btn-dict-category.inactive { background: #ffffff; color: #081724; border: 2px solid #1c2b44; }
         .btn-dict-category.inactive:hover { background: #f0f4f8; }
+        .btn-fechar-dicionario { position: absolute; top: 12px; right: 16px; background: transparent; border: none; font-size: 28px; font-weight: 600; color: #1c2b44; cursor: pointer; padding: 8px; line-height: 1; z-index: 99; transition: transform 0.2s, color 0.2s; }
+        .btn-fechar-dicionario:hover { color: #a90000; transform: scale(1.1); }
         
         /* Painel Direito (Com position relative para o popup nascer SÓ AQUI) */
         .dict-right-panel { flex: 1; border: 1px solid #b5b5b5; border-radius: 6px; padding: 30px; overflow-y: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; align-content: start; background: #ffffff; position: relative; box-sizing: border-box; }
@@ -449,6 +451,7 @@ export default function SimuladosPage({ setActiveNav }) {
   .option-btn { padding: 12px 15px; font-size: 14px; }
   .btn-enviar-wrapper { flex-direction: column; gap: 15px; align-items: center; }
   .btn-enviar { width: 100%; }
+  .btn-fechar-dicionario { top: 4px; right: 8px; font-size: 32px; }
   .feedback-msg { margin-right: 0; text-align: center; }
   .cal-day-num { font-size: 11px; }
   .tag-simulado, .tag-prova { font-size: 8px; padding: 1px 3px; }
@@ -567,6 +570,16 @@ export default function SimuladosPage({ setActiveNav }) {
       {isDictionaryOpen && (
         <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="dict-window" onClick={e => e.stopPropagation()}>
+            
+            {/* ── NOVO: BOTÃO DE FECHAR ── */}
+            <button 
+              className="btn-fechar-dicionario" 
+              onClick={() => setIsDictionaryOpen(false)}
+              title="Fechar Dicionário"
+            >
+              &times;
+            </button>
+            {/* ─────────────────────────── */}
             
             {/* Painel Esquerdo com Pesquisa e 4 Botões Empilhados */}
             <div className="dict-left-panel">
