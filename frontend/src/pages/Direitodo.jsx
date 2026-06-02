@@ -546,7 +546,9 @@ export default function DireitodoPage() {
           .main-board {
             flex-direction: column; /* Coloca as colunas uma embaixo da outra */
             padding: 15px;
-            gap: 20px;
+            gap: 14px !important;
+            justify-content: flex-start !important;
+            align-items: stretch;
           }
           .board-column {
             max-width: 100%; /* Faz a coluna ocupar 100% da largura no celular */
