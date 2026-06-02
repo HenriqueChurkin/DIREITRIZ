@@ -283,6 +283,18 @@ export default function DireitodoPage() {
     { id: 't9', text: "Estudar os Elementos da Ação (Partes, Causa de Pedir e Pedido)", checked: false }
   ];
 
+  const direitoConstitucionalTasks = [
+    {
+      id: 't10', text: "Mapear a eficácia e aplicabilidade das normas constitucionais", checked: false,
+      subTasks: [
+        { id: 's9', text: "Diferenciar normas de eficácia plena, contida e limitada", checked: false },
+        { id: 's10', text: "Analisar o papel das normas programáticas na Constituição Federal", checked: false }
+      ]
+    },
+    { id: 't11', text: "Estudar os Direitos Individuais e Coletivos detalhados no Artigo 5º", checked: false },
+    { id: 't12', text: "Revisar as garantias e o funcionamento dos Remédios Constitucionais", checked: false }
+  ];
+
   return (
     <>
       <style>{`
@@ -566,7 +578,7 @@ export default function DireitodoPage() {
               </svg>
             </button>
             <div className="counter-container">
-              <div className="counter-top">3</div>
+              <div className="counter-top">4</div>
               <div className="counter-bottom">
                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M1 1L5 5L9 1" />
@@ -595,18 +607,10 @@ export default function DireitodoPage() {
                 title="Teoria Geral do Processo" 
                 initialTasks={teoriaProcessoTasks} 
               />
-              
-              <div className="premium-card">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <rect x="5" y="11" width="14" height="10" rx="2" fill="#d90000"/>
-                  <path d="M8 11V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V11" stroke="#d90000" strokeWidth="2" strokeLinecap="round"/>
-                  <circle cx="12" cy="15" r="1.5" fill="#ffffff"/>
-                  <path d="M12 16.5V18" stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-                <p className="premium-text">
-                  Para desbloquear até 15 DIRE<span className="title-accent">!</span>TODO é necessário ter o plano premium
-                </p>
-              </div>
+              <SubjectCard 
+                title="Direito Constitucional" 
+                initialTasks={direitoConstitucionalTasks} 
+              />
             </div>
 
           </div>
