@@ -1,111 +1,105 @@
 ﻿import React, { useState } from 'react';
 
-// â”€â”€ Dados simulados dos Simulados (Mock) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Dados simulados dos Simulados (Mock) ────────────────────────
 const simuladosData = [
   { 
-    id: 1, type: "Simulado Prova", date: "13/03", subject: "CiÃªncia Politica",
+    id: 1, type: "Simulado Prova", date: "13/03", subject: "Ciência Politica",
     questions: [
-      { id: 1, title: "QUESTÃƒO 1", status: "pending", correctAnswer: "A", text: "Quais sÃ£o os trÃªs elementos fundamentais que constituem o Estado moderno?", options: { A: "TerritÃ³rio, Povo e Soberania.", B: "Governo, ExÃ©rcito e Leis.", C: "NaÃ§Ã£o, Cultura e ReligiÃ£o.", D: "Poder Legislativo, Executivo e JudiciÃ¡rio." } },
-      { id: 2, title: "QUESTÃƒO 2", status: "pending", correctAnswer: "B", text: "No sistema Parlamentarista, como se divide a chefia do Poder Executivo?", options: { A: "O Presidente detÃ©m todo o poder.", B: "Chefia de Estado (Presidente/Monarca) e Chefia de Governo (Primeiro-Ministro).", C: "O JudiciÃ¡rio assume funÃ§Ãµes executivas.", D: "NÃ£o hÃ¡ divisÃ£o." } },
-      { id: 3, title: "QUESTÃƒO 3", status: "pending", correctAnswer: "C", text: "Quem Ã© o autor da obra 'O EspÃ­rito das Leis' (1748), que consolidou a teoria da separaÃ§Ã£o dos poderes?", options: { A: "Thomas Hobbes.", B: "John Locke.", C: "BarÃ£o de Montesquieu.", D: "Jean-Jacques Rousseau." } },
-      { id: 4, title: "QUESTÃƒO 4", status: "pending", correctAnswer: "B", text: "O conceito de 'Poliarquia', desenvolvido por Robert Dahl, caracteriza-se por:", options: { A: "ConcentraÃ§Ã£o total de poder.", B: "CombinaÃ§Ã£o de alta participaÃ§Ã£o polÃ­tica com alta competiÃ§Ã£o eleitoral.", C: "Governo dos aristocratas.", D: "AusÃªncia de instituiÃ§Ãµes estatais." } },
-      { id: 5, title: "QUESTÃƒO 5", status: "pending", correctAnswer: "C", text: "Segundo a teoria aristotÃ©lica, qual Ã© a forma degenerada (corrompida) da Monarquia?", options: { A: "Democracia.", B: "Oligarquia.", C: "Tirania.", D: "Aristocracia." } },
-      { id: 6, title: "QUESTÃƒO 6", status: "pending", correctAnswer: "A", text: "O 'Estado de Natureza' como uma 'guerra de todos contra todos' Ã© uma concepÃ§Ã£o atribuÃ­da a:", options: { A: "Thomas Hobbes.", B: "Karl Marx.", C: "Immanuel Kant.", D: "Max Weber." } },
-      { id: 7, title: "QUESTÃƒO 7", status: "pending", correctAnswer: "B", text: "O sistema de 'Checks and Balances' (Freios e Contrapesos) serve primordialmente para:", options: { A: "Aumentar a arrecadaÃ§Ã£o.", B: "Garantir que nenhum poder se torne absoluto, mantendo limitaÃ§Ã£o mÃºtua.", C: "Dissolver o Congresso.", D: "Substituir a ConstituiÃ§Ã£o." } },
-      { id: 8, title: "QUESTÃƒO 8", status: "pending", correctAnswer: "B", text: "Qual o principal marco teÃ³rico de Hans Kelsen para a CiÃªncia PolÃ­tica e o Direito?", options: { A: "O contrato social.", B: "A Teoria Pura do Direito e a hierarquia das normas.", C: "A luta de classes.", D: "A dominaÃ§Ã£o carismÃ¡tica." } },
-      { id: 9, title: "QUESTÃƒO 9", status: "pending", correctAnswer: "B", text: "O que define um 'Estado DemocrÃ¡tico de Direito'?", options: { A: "Vontade da maioria sobre a lei.", B: "SubmissÃ£o Ã  ConstituiÃ§Ã£o e respeito aos direitos fundamentais.", C: "Governo militar.", D: "Leis criadas sÃ³ pelo Executivo." } },
-      { id: 10, title: "QUESTÃƒO 10", status: "pending", correctAnswer: "B", text: "A soberania, elemento essencial do Estado, significa que:", options: { A: "O Estado depende de outros paÃ­ses.", B: "O poder estatal Ã© supremo na ordem interna e independente na ordem externa.", C: "O poder Ã© dividido com empresas.", D: "As leis nÃ£o se aplicam a estrangeiros." } }
+      { id: 1, title: "QUESTÃO 1", status: "pending", correctAnswer: "A", text: "Quais são os três elementos fundamentais que constituem o Estado moderno?", options: { A: "Território, Povo e Soberania.", B: "Governo, Exército e Leis.", C: "Nação, Cultura e Religião.", D: "Poder Legislativo, Executivo e Judiciário." } },
+      { id: 2, title: "QUESTÃO 2", status: "pending", correctAnswer: "B", text: "No sistema Parlamentarista, como se divide a chefia do Poder Executivo?", options: { A: "O Presidente detém todo o poder.", B: "Chefia de Estado (Presidente/Monarca) e Chefia de Governo (Primeiro-Ministro).", C: "O Judiciário assume funções executivas.", D: "Não há divisão." } },
+      { id: 3, title: "QUESTÃO 3", status: "pending", correctAnswer: "C", text: "Quem é o autor da obra 'O Espírito das Leis' (1748), que consolidou a teoria da separação dos poderes?", options: { A: "Thomas Hobbes.", B: "John Locke.", C: "Barão de Montesquieu.", D: "Jean-Jacques Rousseau." } },
+      { id: 4, title: "QUESTÃO 4", status: "pending", correctAnswer: "B", text: "O conceito de 'Poliarquia', desenvolvido por Robert Dahl, caracteriza-se por:", options: { A: "Concentração total de poder.", B: "Combinação de alta participação política com alta competição eleitoral.", C: "Governo dos aristocratas.", D: "Ausência de instituições estatais." } },
+      { id: 5, title: "QUESTÃO 5", status: "pending", correctAnswer: "C", text: "Segundo a teoria aristotélica, qual é a forma degenerada (corrompida) da Monarquia?", options: { A: "Democracia.", B: "Oligarquia.", C: "Tirania.", D: "Aristocracia." } },
+      { id: 6, title: "QUESTÃO 6", status: "pending", correctAnswer: "A", text: "O 'Estado de Natureza' como uma 'guerra de todos contra todos' é uma concepção atribuída a:", options: { A: "Thomas Hobbes.", B: "Karl Marx.", C: "Immanuel Kant.", D: "Max Weber." } },
+      { id: 7, title: "QUESTÃO 7", status: "pending", correctAnswer: "B", text: "O sistema de 'Checks and Balances' (Freios e Contrapesos) serve primordialmente para:", options: { A: "Aumentar a arrecadação.", B: "Garantir que nenhum poder se torne absoluto, mantendo limitação mútua.", C: "Dissolver o Congresso.", D: "Substituir a Constituição." } },
+      { id: 8, title: "QUESTÃO 8", status: "pending", correctAnswer: "B", text: "Qual o principal marco teórico de Hans Kelsen para a Ciência Política e o Direito?", options: { A: "O contrato social.", B: "A Teoria Pura do Direito e a hierarquia das normas.", C: "A luta de classes.", D: "A dominação carismática." } },
+      { id: 9, title: "QUESTÃO 9", status: "pending", correctAnswer: "B", text: "O que define um 'Estado Democrático de Direito'?", options: { A: "Vontade da maioria sobre a lei.", B: "Submissão à Constituição e respeito aos direitos fundamentais.", C: "Governo militar.", D: "Leis criadas só pelo Executivo." } },
+      { id: 10, title: "QUESTÃO 10", status: "pending", correctAnswer: "B", text: "A soberania, elemento essencial do Estado, significa que:", options: { A: "O Estado depende de outros países.", B: "O poder estatal é supremo na ordem interna e independente na ordem externa.", C: "O poder é dividido com empresas.", D: "As leis não se aplicam a estrangeiros." } }
     ]
   },
   { 
-    id: 2, type: "Simulado Prova", date: "04/05", subject: "CiÃªncia Politica", 
+    id: 2, type: "Simulado Prova", date: "04/05", subject: "Ciência Politica", 
     questions: [
-      { id: 11, title: "QUESTÃƒO 1", status: "pending", correctAnswer: "B", text: "Na classificaÃ§Ã£o de Maquiavel, quais sÃ£o as duas formas fundamentais de governo?", options: { A: "Democracia e Aristocracia.", B: "Monarquia e RepÃºblica.", C: "Tirania e Oligarquia.", D: "Parlamentarismo e Presidencialismo." } },
-      { id: 12, title: "QUESTÃƒO 2", status: "pending", correctAnswer: "C", text: "A forma de Estado na qual existe uma pluralidade de centros de poder polÃ­tico autÃ´nomos, unidos por uma ConstituiÃ§Ã£o rÃ­gida, denomina-se:", options: { A: "Estado UnitÃ¡rio.", B: "ConfederaÃ§Ã£o.", C: "Estado Federal.", D: "ImpÃ©rio." } },
-      { id: 13, title: "QUESTÃƒO 3", status: "pending", correctAnswer: "A", text: "Em qual sistema de governo o Presidente da RepÃºblica acumula as funÃ§Ãµes tÃ­picas de Chefe de Estado e Chefe de Governo?", options: { A: "Presidencialismo.", B: "Parlamentarismo.", C: "Monarquia Constitucional.", D: "Diretorial." } },
-      { id: 14, title: "QUESTÃƒO 4", status: "pending", correctAnswer: "C", text: "Para Jean-Jacques Rousseau, a soberania reside fundamentalmente e inalienavelmente:", options: { A: "No monarca.", B: "No parlamento.", C: "No povo (vontade geral).", D: "Na aristocracia dominante." } },
-      { id: 15, title: "QUESTÃƒO 5", status: "pending", correctAnswer: "C", text: "Qual dos seguintes pensadores Ã© considerado o pai do liberalismo polÃ­tico, defendendo que os direitos Ã  vida, Ã  liberdade e Ã  propriedade sÃ£o direitos naturais?", options: { A: "Thomas Hobbes.", B: "Karl Marx.", C: "John Locke.", D: "Nicolau Maquiavel." } },
-      { id: 16, title: "QUESTÃƒO 6", status: "pending", correctAnswer: "B", text: "Como o sociÃ³logo Max Weber define o Estado Moderno em sua teoria?", options: { A: "Uma associaÃ§Ã£o de classe voltada para a exploraÃ§Ã£o econÃ´mica.", B: "A comunidade humana que reivindica, com Ãªxito, o monopÃ³lio do uso legÃ­timo da forÃ§a fÃ­sica em um dado territÃ³rio.", C: "Um contrato social voltado exclusivamente Ã  proteÃ§Ã£o da propriedade privada.", D: "Uma instituiÃ§Ã£o puramente divina e irrefutÃ¡vel." } },
-      { id: 17, title: "QUESTÃƒO 7", status: "pending", correctAnswer: "B", text: "No sistema eleitoral proporcional, frequentemente utilizado para eleiÃ§Ãµes legislativas (como para deputados e vereadores no Brasil), o objetivo principal Ã©:", options: { A: "Garantir que apenas o candidato mais votado tenha assento no parlamento.", B: "Refletir a pluralidade de votos e correntes de opiniÃ£o na distribuiÃ§Ã£o das cadeiras legislativas.", C: "Eliminar a influÃªncia de partidos polÃ­ticos minoritÃ¡rios.", D: "Escolher diretamente o Chefe do Poder Executivo." } },
-      { id: 18, title: "QUESTÃƒO 8", status: "pending", correctAnswer: "B", text: "Segundo a doutrina moderna da separaÃ§Ã£o de poderes (inspirada em Montesquieu), uma funÃ§Ã£o ATÃPICA do Poder Legislativo Ã©:", options: { A: "A criaÃ§Ã£o ordinÃ¡ria de leis.", B: "O julgamento em casos especÃ­ficos (como em processos de impeachment).", C: "O veto parcial ou total de projetos de lei.", D: "O comando supremo das forÃ§as armadas." } },
-      { id: 19, title: "QUESTÃƒO 9", status: "pending", correctAnswer: "C", text: "A transiÃ§Ã£o do Estado Liberal clÃ¡ssico para o Estado Social (Welfare State) no decorrer do sÃ©culo XX foi caracterizada pela:", options: { A: "AbstenÃ§Ã£o total do Estado nas relaÃ§Ãµes econÃ´micas e trabalhistas.", B: "EliminaÃ§Ã£o total da propriedade privada dos meios de produÃ§Ã£o.", C: "IntervenÃ§Ã£o ativa do Estado para garantir direitos sociais, econÃ´micos e trabalhistas essenciais.", D: "ConcentraÃ§Ã£o absoluta do poder polÃ­tico e econÃ´mico nas mÃ£os de um dÃ©spota." } },
-      { id: 20, title: "QUESTÃƒO 10", status: "pending", correctAnswer: "A", text: "No contexto da Teoria Geral do Estado, a 'Soberania' Ã© classicamente caracterizada como um poder:", options: { A: "Uno, indivisÃ­vel, inalienÃ¡vel e imprescritÃ­vel.", B: "Dividido, alienÃ¡vel e de vigÃªncia temporÃ¡ria.", C: "Subordinado de forma absoluta Ã s leis e tratados internacionais sem direito de recusa.", D: "Exclusivo do Poder JudiciÃ¡rio, nÃ£o afetando os demais poderes." } }
+      { id: 11, title: "QUESTÃO 1", status: "pending", correctAnswer: "B", text: "Na classificação de Maquiavel, quais são as duas formas fundamentais de governo?", options: { A: "Democracia e Aristocracia.", B: "Monarquia e República.", C: "Tirania e Oligarquia.", D: "Parlamentarismo e Presidencialismo." } },
+      { id: 12, title: "QUESTÃO 2", status: "pending", correctAnswer: "C", text: "A forma de Estado na qual existe uma pluralidade de centros de poder político autônomos, unidos por uma Constituição rígida, denomina-se:", options: { A: "Estado Unitário.", B: "Confederação.", C: "Estado Federal.", D: "Império." } },
+      { id: 13, title: "QUESTÃO 3", status: "pending", correctAnswer: "A", text: "Em qual sistema de governo o Presidente da República acumula as funções típicas de Chefe de Estado e Chefe de Governo?", options: { A: "Presidencialismo.", B: "Parlamentarismo.", C: "Monarquia Constitucional.", D: "Diretorial." } },
+      { id: 14, title: "QUESTÃO 4", status: "pending", correctAnswer: "C", text: "Para Jean-Jacques Rousseau, a soberania reside fundamentalmente e inalienavelmente:", options: { A: "No monarca.", B: "No parlamento.", C: "No povo (vontade geral).", D: "Na aristocracia dominante." } },
+      { id: 15, title: "QUESTÃO 5", status: "pending", correctAnswer: "C", text: "Qual dos seguintes pensadores é considerado o pai do liberalismo político, defendendo que os direitos à vida, à liberdade e à propriedade são direitos naturais?", options: { A: "Thomas Hobbes.", B: "Karl Marx.", C: "John Locke.", D: "Nicolau Maquiavel." } },
+      { id: 16, title: "QUESTÃO 6", status: "pending", correctAnswer: "B", text: "Como o sociólogo Max Weber define o Estado Moderno em sua teoria?", options: { A: "Uma associação de classe voltada para a exploração econômica.", B: "A comunidade humana que reivindica, com êxito, o monopólio do uso legítimo da força física em um dado território.", C: "Um contrato social voltado exclusivamente à proteção da propriedade privada.", D: "Uma instituição puramente divina e irrefutável." } },
+      { id: 17, title: "QUESTÃO 7", status: "pending", correctAnswer: "B", text: "No sistema eleitoral proporcional, frequentemente utilizado para eleições legislativas (como para deputados e vereadores no Brasil), o objetivo principal é:", options: { A: "Garantir que apenas o candidato mais votado tenha assento no parlamento.", B: "Refletir a pluralidade de votos e correntes de opinião na distribuição das cadeiras legislativas.", C: "Eliminar a influência de partidos políticos minoritários.", D: "Escolher diretamente o Chefe do Poder Executivo." } },
+      { id: 18, title: "QUESTÃO 8", status: "pending", correctAnswer: "B", text: "Segundo a doutrina moderna da separação de poderes (inspirada em Montesquieu), uma função ATÍPICA do Poder Legislativo é:", options: { A: "A criação ordinária de leis.", B: "O julgamento em casos específicos (como em processos de impeachment).", C: "O veto parcial ou total de projetos de lei.", D: "O comando supremo das forças armadas." } },
+      { id: 19, title: "QUESTÃO 9", status: "pending", correctAnswer: "C", text: "A transição do Estado Liberal clássico para o Estado Social (Welfare State) no decorrer do século XX foi caracterizada pela:", options: { A: "Abstenção total do Estado nas relações econômicas e trabalhistas.", B: "Eliminação total da propriedade privada dos meios de produção.", C: "Intervenção ativa do Estado para garantir direitos sociais, econômicos e trabalhistas essenciais.", D: "Concentração absoluta do poder político e econômico nas mãos de um déspota." } },
+      { id: 20, title: "QUESTÃO 10", status: "pending", correctAnswer: "A", text: "No contexto da Teoria Geral do Estado, a 'Soberania' é classicamente caracterizada como um poder:", options: { A: "Uno, indivisível, inalienável e imprescritível.", B: "Dividido, alienável e de vigência temporária.", C: "Subordinado de forma absoluta às leis e tratados internacionais sem direito de recusa.", D: "Exclusivo do Poder Judiciário, não afetando os demais poderes." } }
     ]
   },
   { 
-    id: 3, type: "QUIZ AULA", date: "04/05", subject: "CiÃªncia Politica", 
+    id: 3, type: "QUIZ AULA", date: "04/05", subject: "Ciência Politica", 
     questions: [
-      { id: 21, title: "QUESTÃƒO 1", status: "pending", correctAnswer: "B", text: "Para Thomas Hobbes, a saÃ­da do caÃ³tico estado de natureza se dÃ¡ atravÃ©s da celebraÃ§Ã£o de um pacto que estabelece um soberano com poder absoluto. Qual o nome da obra mÃ¡xima onde ele expÃµe essa ideia?", options: { A: "O PrÃ­ncipe.", B: "O LeviatÃ£.", C: "O Contrato Social.", D: "Segundo Tratado sobre o Governo Civil." } },
-      { id: 22, title: "QUESTÃƒO 2", status: "pending", correctAnswer: "C", text: "Na ciÃªncia polÃ­tica, como se diferencia o conceito de 'Estado' do conceito de 'NaÃ§Ã£o'?", options: { A: "SÃ£o sinÃ´nimos exatos utilizados para a mesma finalidade jurÃ­dica.", B: "NaÃ§Ã£o refere-se ao aparato jurÃ­dico-polÃ­tico e geogrÃ¡fico, e Estado apenas Ã  comunidade de indivÃ­duos.", C: "Estado Ã© a entidade jurÃ­dico-polÃ­tica (aparato de poder e territÃ³rio), enquanto NaÃ§Ã£o envolve identidade cultural, histÃ³rica e laÃ§os de pertencimento.", D: "O Estado nÃ£o possui territÃ³rio definido, enquanto a NaÃ§Ã£o obrigatoriamente sim." } },
-      { id: 23, title: "QUESTÃƒO 3", status: "pending", correctAnswer: "A", text: "Qual a diferenÃ§a central e estrutural entre Democracia Direta e Democracia Representativa?", options: { A: "Na direta, o povo toma as decisÃµes polÃ­ticas sem intermediÃ¡rios; na representativa, elege mandatÃ¡rios para fazÃª-lo em seu nome.", B: "Apenas a democracia representativa Ã© legÃ­tima e permite o sufrÃ¡gio universal.", C: "A direta sÃ³ ocorre no sistema parlamentarista.", D: "NÃ£o hÃ¡ diferenÃ§a prÃ¡tica, pois as leis votadas sÃ£o idÃªnticas." } },
-      { id: 24, title: "QUESTÃƒO 4", status: "pending", correctAnswer: "A", text: "No estudo das Formas de Estado, o que diferencia basicamente uma ConfederaÃ§Ã£o de uma FederaÃ§Ã£o?", options: { A: "Na ConfederaÃ§Ã£o, os Estados-membros mantÃªm sua soberania plena e o direito de secessÃ£o (separaÃ§Ã£o).", B: "Na FederaÃ§Ã£o nÃ£o hÃ¡ um documento constitucional, apenas tratados internacionais.", C: "ConfederaÃ§Ã£o Ã© o termo histÃ³rico para Estado UnitÃ¡rio Descentralizado.", D: "Na ConfederaÃ§Ã£o hÃ¡ um forte poder central irrevogÃ¡vel que submete os entes locais." } },
-      { id: 25, title: "QUESTÃƒO 5", status: "pending", correctAnswer: "D", text: "A quem pertence juridicamente e politicamente a titularidade do 'Poder Constituinte OriginÃ¡rio', responsÃ¡vel por instituir uma nova ConstituiÃ§Ã£o em um Estado DemocrÃ¡tico?", options: { A: "Ao Congresso Nacional ou Parlamento em exercÃ­cio.", B: "Ã€s ForÃ§as Armadas da respectiva naÃ§Ã£o.", C: "Ao Chefe do Poder Executivo em exercÃ­cio.", D: "Ao Povo." } }
+      { id: 21, title: "QUESTÃO 1", status: "pending", correctAnswer: "B", text: "Para Thomas Hobbes, a saída do caótico estado de natureza se dá através da celebração de um pacto que estabelece um soberano com poder absoluto. Qual o nome da obra máxima onde ele expõe essa ideia?", options: { A: "O Príncipe.", B: "O Leviatã.", C: "O Contrato Social.", D: "Segundo Tratado sobre o Governo Civil." } },
+      { id: 22, title: "QUESTÃO 2", status: "pending", correctAnswer: "C", text: "Na ciência política, como se diferencia o conceito de 'Estado' do conceito de 'Nação'?", options: { A: "São sinônimos exatos utilizados para a mesma finalidade jurídica.", B: "Nação refere-se ao aparato jurídico-político e geográfico, e Estado apenas à comunidade de indivíduos.", C: "Estado é a entidade jurídico-política (aparato de poder e território), enquanto Nação envolve identidade cultural, histórica e laços de pertencimento.", D: "O Estado não possui território definido, enquanto a Nação obrigatoriamente sim." } },
     ]
   },
   { 
-    id: 4, type: "QUIZ AULA", date: "20/05", subject: "CiÃªncia Politica", 
+    id: 4, type: "QUIZ AULA", date: "20/05", subject: "Ciência Politica", 
     questions: [
-      { id: 26, title: "QUESTÃƒO 1", status: "pending", correctAnswer: "A", text: "O que caracteriza o modelo de 'voto censitÃ¡rio', adotado nas primeiras constituiÃ§Ãµes liberais (como a do Brasil ImpÃ©rio em 1824)?", options: { A: "O direito ao voto era restrito apenas Ã queles que comprovassem um nÃ­vel mÃ­nimo de renda ou patrimÃ´nio.", B: "O voto era obrigatÃ³rio e universal para todas as pessoas maiores de 18 anos.", C: "O voto era baseado na escolaridade, restrito aos alfabetizados.", D: "Era o sistema em que o voto pertencia exclusivamente aos clÃ©rigos e militares." } },
-      { id: 27, title: "QUESTÃƒO 2", status: "pending", correctAnswer: "B", text: "Segundo a taxonomia clÃ¡ssica aristotÃ©lica, a Oligarquia Ã© considerada o governo corrompido ou degenerado de qual das opÃ§Ãµes abaixo?", options: { A: "De um sÃ³ (degeneraÃ§Ã£o da Monarquia).", B: "De poucos (degeneraÃ§Ã£o da Aristocracia, visando ao interesse dos ricos).", C: "De muitos (degeneraÃ§Ã£o da Politeia, visando apenas Ã  maioria pobre).", D: "Dos militares (degeneraÃ§Ã£o do governo civil)." } },
-      { id: 28, title: "QUESTÃƒO 3", status: "pending", correctAnswer: "D", text: "Embora facÃ§Ãµes existissem desde a antiguidade, o conceito estrutural de 'Partidos PolÃ­ticos' de massa ganhou forÃ§a fundamentalmente durante qual momento histÃ³rico?", options: { A: "Durante a RepÃºblica Romana e o Senado.", B: "Ao longo de toda a Idade MÃ©dia, com a disputa entre Reinos.", C: "No Renascimento, nas cidades-estado italianas.", D: "A partir do SÃ©culo XIX, com a expansÃ£o do sufrÃ¡gio e a solidificaÃ§Ã£o dos parlamentos modernos." } },
-      { id: 29, title: "QUESTÃƒO 4", status: "pending", correctAnswer: "B", text: "Em um Estado DemocrÃ¡tico de Direito pautado na separaÃ§Ã£o dos poderes, Ã© correto afirmar que o Poder JudiciÃ¡rio deve ser institucionalmente:", options: { A: "Subordinado funcionalmente Ã s diretrizes e ordens do Presidente da RepÃºblica.", B: "Independente e imparcial, exercendo a funÃ§Ã£o jurisdicional sob o impÃ©rio da ConstituiÃ§Ã£o e da lei.", C: "Composto por magistrados eleitos pelo voto direto e secreto a cada dois anos.", D: "O principal responsÃ¡vel pela formulaÃ§Ã£o e execuÃ§Ã£o orÃ§amentÃ¡ria de polÃ­ticas pÃºblicas." } },
-      { id: 30, title: "QUESTÃƒO 5", status: "pending", correctAnswer: "B", text: "Na dualidade das Formas de Governo, a caracterÃ­stica principal da RepÃºblica, em nÃ­tida oposiÃ§Ã£o ao modelo tradicional da Monarquia, Ã©:", options: { A: "A vitaliciedade, hereditariedade e irresponsabilidade polÃ­tica do Chefe de Estado.", B: "A eletividade, a temporariedade do mandato e a responsabilidade polÃ­tica do governante perante os governados.", C: "A ausÃªncia total de processos eleitorais regulares e pluripartidarismo.", D: "O fato de que o poder fica concentrado em um Primeiro-Ministro vitalÃ­cio." } }
+      { id: 26, title: "QUESTÃO 1", status: "pending", correctAnswer: "A", text: "O que caracteriza o modelo de 'voto censitário', adotado nas primeiras constituições liberais (como a do Brasil Império em 1824)?", options: { A: "O direito ao voto era restrito apenas àqueles que comprovassem um nível mínimo de renda ou patrimônio.", B: "O voto era obrigatório e universal para todas as pessoas maiores de 18 anos.", C: "O voto era baseado na escolaridade, restrito aos alfabetizados.", D: "Era o sistema em que o voto pertencia exclusivamente aos clérigos e militares." } },
+      { id: 27, title: "QUESTÃO 2", status: "pending", correctAnswer: "B", text: "Segundo a taxonomia clássica aristotélica, a Oligarquia é considerada o governo corrompido ou degenerado de qual das opções abaixo?", options: { A: "De um só (degeneração da Monarquia).", B: "De poucos (degeneração da Aristocracia, visando ao interesse dos ricos).", C: "De muitos (degeneração da Politeia, visando apenas à maioria pobre).", D: "Dos militares (degeneração do governo civil)." } },
     ]
   },
 ];
 
-// â”€â”€ Banco de Dados Expandido do DicionÃ¡rio (4 Categorias x 10 Palavras) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Banco de Dados Expandido do Dicionário (4 Categorias x 10 Palavras) ────────────────────────
 const dicionarioData = [
   // LATIM
-  { id: 1, term: "Habeas corpus", category: "latim", definition: "AÃ§Ã£o que protege a liberdade de locomoÃ§Ã£o de alguÃ©m que sofre ou Ã© ameaÃ§ada de prisÃ£o ilegal." },
-  { id: 2, term: "A priori", category: "latim", definition: "Algo estabelecido por deduÃ§Ã£o ou suposiÃ§Ã£o antes da observaÃ§Ã£o ou experiÃªncia." },
+  { id: 1, term: "Habeas corpus", category: "latim", definition: "Ação que protege a liberdade de locomoção de alguém que sofre ou é ameaçada de prisão ilegal." },
+  { id: 2, term: "A priori", category: "latim", definition: "Algo estabelecido por dedução ou suposição antes da observação ou experiência." },
   { id: 3, term: "Ad hoc", category: "latim", definition: "Criado ou nomeado especificamente para uma finalidade ou problema particular." },
-  { id: 4, term: "Erga omnes", category: "latim", definition: "Significa 'contra todos'. Uma decisÃ£o ou lei que afeta e vale para todos os indivÃ­duos, nÃ£o apenas para as partes de um processo." },
-  { id: 5, term: "QuÃ³rum", category: "latim", definition: "NÃºmero mÃ­nimo de pessoas exigido para que uma assembleia possa tomar decisÃµes vÃ¡lidas." },
-  { id: 6, term: "Fumus boni iuris", category: "latim", definition: "A 'fumaÃ§a do bom direito'. Indica a probabilidade de que o direito alegado por alguÃ©m realmente exista, requisito para liminares." },
-  { id: 7, term: "Ex tunc / Ex nunc", category: "latim", definition: "Ex tunc: Retroage, tem efeito desde a origem. Ex nunc: NÃ£o retroage, tem efeito apenas a partir da decisÃ£o para frente." },
-  { id: 8, term: "Sine qua non", category: "latim", definition: "Uma condiÃ§Ã£o indispensÃ¡vel ou essencial para que algo aconteÃ§a." },
-  { id: 9, term: "Ipso facto", category: "latim", definition: "Significa 'pelo prÃ³prio fato'. Algo que Ã© consequÃªncia direta e inevitÃ¡vel de um evento." },
-  { id: 10, term: "Modus operandi", category: "latim", definition: "O mÃ©todo ou a maneira habitual como uma pessoa ou um grupo age para realizar algo." },
+  { id: 4, term: "Erga omnes", category: "latim", definition: "Significa 'contra todos'. Uma decisão ou lei que afeta e vale para todos os indivíduos, não apenas para as partes de um processo." },
+  { id: 5, term: "Quórum", category: "latim", definition: "Número mínimo de pessoas exigido para que uma assembleia possa tomar decisões válidas." },
+  { id: 6, term: "Fumus boni iuris", category: "latim", definition: "A 'fumaça do bom direito'. Indica a probabilidade de que o direito alegado por alguém realmente exista, requisito para liminares." },
+  { id: 7, term: "Ex tunc / Ex nunc", category: "latim", definition: "Ex tunc: Retroage, tem efeito desde a origem. Ex nunc: Não retroage, tem efeito apenas a partir da decisão para frente." },
+  { id: 8, term: "Sine qua non", category: "latim", definition: "Uma condição indispensável ou essencial para que algo aconteça." },
+  { id: 9, term: "Ipso facto", category: "latim", definition: "Significa 'pelo próprio fato'. Algo que é consequência direta e inevitável de um evento." },
+  { id: 10, term: "Modus operandi", category: "latim", definition: "O método ou a maneira habitual como uma pessoa ou um grupo age para realizar algo." },
 
-  // TERMOS JURÃDICOS (Gerais/Processuais)
-  { id: 11, term: "JurisprudÃªncia", category: "juridico", definition: "O conjunto de decisÃµes e interpretaÃ§Ãµes adotadas repetidamente pelos juÃ­zes e tribunais." },
-  { id: 12, term: "TrÃ¢nsito em julgado", category: "juridico", definition: "Quando uma decisÃ£o judicial se torna definitiva e nÃ£o aceita mais nenhum recurso." },
-  { id: 13, term: "Medida Liminar", category: "juridico", definition: "Ordem provisÃ³ria e urgente do juiz para evitar danos irreparÃ¡veis antes do fim do processo." },
-  { id: 14, term: "ApelaÃ§Ã£o", category: "juridico", definition: "O recurso usado para pedir que um tribunal superior revise a sentenÃ§a de um juiz de primeiro grau." },
-  { id: 15, term: "ContraditÃ³rio", category: "juridico", definition: "PrincÃ­pio que garante Ã s partes o direito de responder e se defender de tudo o que for alegado contra elas no processo." },
-  { id: 16, term: "SucumbÃªncia", category: "juridico", definition: "Quando a parte que perde o processo Ã© obrigada a pagar as custas processuais e os honorÃ¡rios do advogado da parte vencedora." },
-  { id: 17, term: "Agravo de Instrumento", category: "juridico", definition: "Recurso contra decisÃµes urgentes do juiz no meio do processo (decisÃµes interlocutÃ³rias), antes da sentenÃ§a final." },
-  { id: 18, term: "IntimaÃ§Ã£o / CitaÃ§Ã£o", category: "juridico", definition: "CitaÃ§Ã£o Ã© o ato de chamar alguÃ©m para se defender no processo pela primeira vez. IntimaÃ§Ã£o Ã© o aviso de atos seguintes do processo." },
-  { id: 19, term: "PrecatÃ³rio", category: "juridico", definition: "Uma requisiÃ§Ã£o formal de pagamento que a JustiÃ§a faz para que o Governo pague uma dÃ­vida acima de um certo valor." },
-  { id: 20, term: "PetiÃ§Ã£o Inicial", category: "juridico", definition: "O documento que dÃ¡ inÃ­cio a um processo, onde o autor apresenta seus fatos, fundamentos e pedidos ao juiz." },
+  // TERMOS JURÍDICOS (Gerais/Processuais)
+  { id: 11, term: "Jurisprudência", category: "juridico", definition: "O conjunto de decisões e interpretações adotadas repetidamente pelos juízes e tribunais." },
+  { id: 12, term: "Trânsito em julgado", category: "juridico", definition: "Quando uma decisão judicial se torna definitiva e não aceita mais nenhum recurso." },
+  { id: 13, term: "Medida Liminar", category: "juridico", definition: "Ordem provisória e urgente do juiz para evitar danos irreparáveis antes do fim do processo." },
+  { id: 14, term: "Apelação", category: "juridico", definition: "O recurso usado para pedir que um tribunal superior revise a sentença de um juiz de primeiro grau." },
+  { id: 15, term: "Contraditório", category: "juridico", definition: "Princípio que garante às partes o direito de responder e se defender de tudo o que for alegado contra elas no processo." },
+  { id: 16, term: "Sucumbência", category: "juridico", definition: "Quando a parte que perde o processo é obrigada a pagar as custas processuais e os honorários do advogado da parte vencedora." },
+  { id: 17, term: "Agravo de Instrumento", category: "juridico", definition: "Recurso contra decisões urgentes do juiz no meio do processo (decisões interlocutórias), antes da sentença final." },
+  { id: 18, term: "Intimação / Citação", category: "juridico", definition: "Citação é o ato de chamar alguém para se defender no processo pela primeira vez. Intimação é o aviso de atos seguintes do processo." },
+  { id: 19, term: "Precatório", category: "juridico", definition: "Uma requisição formal de pagamento que a Justiça faz para que o Governo pague uma dívida acima de um certo valor." },
+  { id: 20, term: "Petição Inicial", category: "juridico", definition: "O documento que dá início a um processo, onde o autor apresenta seus fatos, fundamentos e pedidos ao juiz." },
 
   // DIREITO CIVIL
-  { id: 21, term: "UsucapiÃ£o", category: "civil", definition: "A aquisiÃ§Ã£o da propriedade de um bem (mÃ³vel ou imÃ³vel) pelo fato de o indivÃ­duo ter a posse pacÃ­fica e contÃ­nua por um tempo estabelecido em lei." },
-  { id: 22, term: "Dano Moral", category: "civil", definition: "A lesÃ£o aos direitos da personalidade de alguÃ©m (honra, imagem, intimidade) que gera o dever de indenizaÃ§Ã£o pecuniÃ¡ria." },
-  { id: 23, term: "EvicÃ§Ã£o", category: "civil", definition: "Perda da posse ou propriedade de um bem adquirido legalmente, em virtude de uma decisÃ£o judicial que reconhece o direito anterior de outra pessoa." },
-  { id: 24, term: "EspÃ³lio", category: "civil", definition: "O conjunto de bens, direitos e obrigaÃ§Ãµes (dÃ­vidas) deixados por uma pessoa falecida atÃ© que seja feita a partilha." },
-  { id: 25, term: "ComoriÃªncia", category: "civil", definition: "A presunÃ§Ã£o jurÃ­dica de que duas pessoas morreram exatamente no mesmo instante, usada quando nÃ£o se sabe quem faleceu primeiro (importante para heranÃ§a)." },
-  { id: 26, term: "Lucros Cessantes", category: "civil", definition: "Aquilo que a pessoa razoavelmente deixou de ganhar ou lucrar devido a um ato ilÃ­cito ou descumprimento de contrato por outra pessoa." },
-  { id: 27, term: "Penhor", category: "civil", definition: "Dar um bem mÃ³vel (como joias) como garantia de pagamento de uma dÃ­vida. NÃ£o confundir com 'penhora', que Ã© apreensÃ£o judicial." },
-  { id: 28, term: "MÃºtuo", category: "civil", definition: "Contrato de emprÃ©stimo de coisas que podem ser consumidas e substituÃ­das (ex: dinheiro), onde o recebedor deve devolver algo da mesma espÃ©cie e quantidade." },
-  { id: 29, term: "Curatela / Tutela", category: "civil", definition: "Tutela Ã© para proteger e administrar bens de menores de idade. Curatela Ã© para maiores de idade incapacitados de reger a prÃ³pria vida (ex: por doenÃ§a grave)." },
-  { id: 30, term: "Testamento Cerrado", category: "civil", definition: "Documento escrito em segredo pelo testador e entregue fechado a um tabeliÃ£o na presenÃ§a de testemunhas, sÃ³ sendo aberto apÃ³s a morte." },
+  { id: 21, term: "Usucapião", category: "civil", definition: "A aquisição da propriedade de um bem (móvel ou imóvel) pelo fato de o indivíduo ter a posse pacífica e contínua por um tempo estabelecido em lei." },
+  { id: 22, term: "Dano Moral", category: "civil", definition: "A lesão aos direitos da personalidade de alguém (honra, imagem, intimidade) que gera o dever de indenização pecuniária." },
+  { id: 23, term: "Evicção", category: "civil", definition: "Perda da posse ou propriedade de um bem adquirido legalmente, em virtude de uma decisão judicial que reconhece o direito anterior de outra pessoa." },
+  { id: 24, term: "Espólio", category: "civil", definition: "O conjunto de bens, direitos e obrigações (dívidas) deixados por uma pessoa falecida até que seja feita a partilha." },
+  { id: 25, term: "Comoriência", category: "civil", definition: "A presunção jurídica de que duas pessoas morreram exatamente no mesmo instante, usada quando não se sabe quem faleceu primeiro (importante para herança)." },
+  { id: 26, term: "Lucros Cessantes", category: "civil", definition: "Aquilo que a pessoa razoavelmente deixou de ganhar ou lucrar devido a um ato ilícito ou descumprimento de contrato por outra pessoa." },
+  { id: 27, term: "Penhor", category: "civil", definition: "Dar um bem móvel (como joias) como garantia de pagamento de uma dívida. Não confundir com 'penhora', que é apreensão judicial." },
+  { id: 28, term: "Mútuo", category: "civil", definition: "Contrato de empréstimo de coisas que podem ser consumidas e substituídas (ex: dinheiro), onde o recebedor deve devolver algo da mesma espécie e quantidade." },
+  { id: 29, term: "Curatela / Tutela", category: "civil", definition: "Tutela é para proteger e administrar bens de menores de idade. Curatela é para maiores de idade incapacitados de reger a própria vida (ex: por doença grave)." },
+  { id: 30, term: "Testamento Cerrado", category: "civil", definition: "Documento escrito em segredo pelo testador e entregue fechado a um tabelião na presença de testemunhas, só sendo aberto após a morte." },
 
   // DIREITO PENAL
-  { id: 31, term: "Dolo e Culpa", category: "penal", definition: "Dolo: intenÃ§Ã£o consciente de cometer o crime. Culpa: nÃ£o hÃ¡ intenÃ§Ã£o de cometer o crime, mas ele ocorre por imprudÃªncia, negligÃªncia ou imperÃ­cia." },
-  { id: 32, term: "Peculato", category: "penal", definition: "Crime no qual um funcionÃ¡rio pÃºblico se apropria ou desvia dinheiro, valor ou bem mÃ³vel (pÃºblico ou particular) do qual tem posse em razÃ£o do seu cargo." },
-  { id: 33, term: "CorrupÃ§Ã£o Passiva / Ativa", category: "penal", definition: "Passiva: o funcionÃ¡rio pÃºblico solicita ou recebe vantagem indevida. Ativa: o cidadÃ£o comum oferece ou promete a vantagem ao funcionÃ¡rio pÃºblico." },
-  { id: 34, term: "PrevaricaÃ§Ã£o", category: "penal", definition: "Crime em que o funcionÃ¡rio pÃºblico atrasa, deixa de fazer ou faz algo contra a lei para satisfazer um interesse ou sentimento pessoal." },
-  { id: 35, term: "Excludente de Ilicitude", category: "penal", definition: "SituaÃ§Ãµes previstas em lei em que um ato que normalmente seria crime deixa de ser (ex: LegÃ­tima defesa e Estado de necessidade)." },
-  { id: 36, term: "Estelionato", category: "penal", definition: "Obter vantagem ilÃ­cita para si ou para outro, causando prejuÃ­zo a alguÃ©m, atravÃ©s de engano, fraude ou 'golpe'." },
-  { id: 37, term: "ReincidÃªncia", category: "penal", definition: "Quando um indivÃ­duo comete um novo crime depois de jÃ¡ ter uma condenaÃ§Ã£o com trÃ¢nsito em julgado por um crime anterior. Agrava a pena." },
-  { id: 38, term: "CalÃºnia, DifamaÃ§Ã£o e InjÃºria", category: "penal", definition: "CalÃºnia: Acusar falsamente de um crime. DifamaÃ§Ã£o: Espalhar fato que ofende a reputaÃ§Ã£o. InjÃºria: Xingar ou ofender a dignidade da pessoa diretamente." },
-  { id: 39, term: "Crime Hediondo", category: "penal", definition: "Crimes considerados de extrema gravidade (ex: latrocÃ­nio, estupro, homicÃ­dio qualificado). NÃ£o tÃªm direito a fianÃ§a, anistia ou graÃ§a." },
-  { id: 40, term: "ConcussÃ£o", category: "penal", definition: "Crime em que o funcionÃ¡rio pÃºblico exige, para si ou para outro, vantagem indevida, valendo-se do seu cargo (espÃ©cie de extorsÃ£o estatal)." }
+  { id: 31, term: "Dolo e Culpa", category: "penal", definition: "Dolo: intenção consciente de cometer o crime. Culpa: não há intenção de cometer o crime, mas ele ocorre por imprudência, negligência ou imperícia." },
+  { id: 32, term: "Peculato", category: "penal", definition: "Crime no qual um funcionário público se apropria ou desvia dinheiro, valor ou bem móvel (público ou particular) do qual tem posse em razão do seu cargo." },
+  { id: 33, term: "Corrupção Passiva / Ativa", category: "penal", definition: "Passiva: o funcionário público solicita ou recebe vantagem indevida. Ativa: o cidadão comum oferece ou promete a vantagem ao funcionário público." },
+  { id: 34, term: "Prevaricação", category: "penal", definition: "Crime em que o funcionário público atrasa, deixa de fazer ou faz algo contra a lei para satisfazer um interesse ou sentimento pessoal." },
+  { id: 35, term: "Excludente de Ilicitude", category: "penal", definition: "Situações previstas em lei em que um ato que normalmente seria crime deixa de ser (ex: Legítima defesa e Estado de necessidade)." },
+  { id: 36, term: "Estelionato", category: "penal", definition: "Obter vantagem ilícita para si ou para outro, causando prejuízo a alguém, através de engano, fraude ou 'golpe'." },
+  { id: 37, term: "Reincidência", category: "penal", definition: "Quando um indivíduo comete um novo crime depois de já ter uma condenação com trânsito em julgado por um crime anterior. Agrava a pena." },
+  { id: 38, term: "Calúnia, Difamação e Injúria", category: "penal", definition: "Calúnia: Acusar falsamente de um crime. Difamação: Espalhar fato que ofende a reputação. Injúria: Xingar ou ofender a dignidade da pessoa diretamente." },
+  { id: 39, term: "Crime Hediondo", category: "penal", definition: "Crimes considerados de extrema gravidade (ex: latrocínio, estupro, homicídio qualificado). Não têm direito a fiança, anistia ou graça." },
+  { id: 40, term: "Concussão", category: "penal", definition: "Crime em que o funcionário público exige, para si ou para outro, vantagem indevida, valendo-se do seu cargo (espécie de extorsão estatal)." }
 ];
 
-const monthNames = ["JANEIRO", "FEVEREIRO", "MARÃ‡O", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
+const monthNames = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"];
 
 export default function SimuladosPage({ setActiveNav }) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -118,20 +112,20 @@ export default function SimuladosPage({ setActiveNav }) {
   const [feedback, setFeedback] = useState(null);
   const [completedSimulados, setCompletedSimulados] = useState({}); 
 
-  // â”€â”€ ESTADOS DO DICIONÃRIO JURÃDICO â”€â”€
+  // ── ESTADOS DO DICIONÁRIO JURÍDICO ──
   const [dictSearch, setDictSearch] = useState("");
   const [dictCategory, setDictCategory] = useState("latim"); 
   const [selectedTerm, setSelectedTerm] = useState(null);
 
-  // â”€â”€ ESTADOS DO CALENDÃRIO / AGENDAMENTO â”€â”€
+  // ── ESTADOS DO CALENDÁRIO / AGENDAMENTO ──
   const [currentDateView, setCurrentDateView] = useState(new Date(2026, 4, 1)); 
   const [provas, setProvas] = useState([
-    { id: 1, subject: "CiÃªncia Politica", date: "04/05/26" },
-    { id: 2, subject: "CiÃªncia Politica", date: "13/03/26" }
+    { id: 1, subject: "Ciência Politica", date: "04/05/26" },
+    { id: 2, subject: "Ciência Politica", date: "13/03/26" }
   ]);
   const [isAddingProva, setIsAddingProva] = useState(false);
   const [editingProvaId, setEditingProvaId] = useState(null);
-  const [provaForm, setProvaForm] = useState({ subject: 'CiÃªncia Politica', date: '' });
+  const [provaForm, setProvaForm] = useState({ subject: 'Ciência Politica', date: '' });
 
   const handleOverlayClick = (e) => {
     if (e.target.className === 'modal-overlay') {
@@ -162,7 +156,7 @@ export default function SimuladosPage({ setActiveNav }) {
     };
     setAnswersLog(newAnswersLog);
     setFeedback({
-      message: isCorrect ? 'Resposta Correta! ðŸ‘' : 'Resposta Incorreta. ðŸ˜•',
+      message: isCorrect ? 'Resposta Correta! 👏' : 'Resposta Incorreta. 😕',
       isCorrect: isCorrect
     });
 
@@ -186,14 +180,14 @@ export default function SimuladosPage({ setActiveNav }) {
     }, 1500);
   };
 
-  // â”€â”€ LÃ“GICA DO CALENDÃRIO & CRUD DE PROVAS â”€â”€
+  // ── LÓGICA DO CALENDÁRIO & CRUD DE PROVAS ──
   const nextMonth = () => setCurrentDateView(new Date(currentDateView.getFullYear(), currentDateView.getMonth() + 1, 1));
   const prevMonth = () => setCurrentDateView(new Date(currentDateView.getFullYear(), currentDateView.getMonth() - 1, 1));
 
   const handleAddClick = () => {
     setIsAddingProva(true);
     setEditingProvaId(null);
-    setProvaForm({ subject: 'CiÃªncia Politica', date: '' });
+    setProvaForm({ subject: 'Ciência Politica', date: '' });
   };
 
   const handleEditClick = (prova) => {
@@ -230,7 +224,7 @@ export default function SimuladosPage({ setActiveNav }) {
     setProvaForm({ ...provaForm, date: value });
   };
 
-  // Filtragem dos termos do DicionÃ¡rio JurÃ­dico
+  // Filtragem dos termos do Dicionário Jurídico
   const filteredTerms = dicionarioData.filter(t => {
     const matchCategory = t.category === dictCategory;
     const matchSearch = t.term.toLowerCase().includes(dictSearch.toLowerCase());
@@ -300,7 +294,7 @@ export default function SimuladosPage({ setActiveNav }) {
         .page-title { font-size: 24px; font-weight: 700; letter-spacing: 4px; color: #000000; margin: 0 0 25px 0; text-transform: uppercase; }
         .title-accent { color: #d90000; }
         
-        /* BotÃµes perfeitamente alinhados na mesma linha */
+        /* Botões perfeitamente alinhados na mesma linha */
         .nav-buttons-right { display: flex; align-items: center; gap: 15px; margin: 0; padding: 0; }
         .btn-header { box-sizing: border-box; background: #ffffff; font-family: inherit; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; height: 40px; margin: 0; transition: all 0.2s; vertical-align: middle; }
         .btn-agendar { border: 2px solid #1c2b44; color: #1c2b44; padding: 0 20px 0 15px; gap: 10px; width: 160px; }
@@ -351,7 +345,7 @@ export default function SimuladosPage({ setActiveNav }) {
         .btn-enviar:hover { background: #152c40; }
         .btn-enviar:disabled { background: #a0a0a0; cursor: not-allowed; }
 
-        /* â”€â”€ MODAL DE AGENDAMENTO â”€â”€ */
+        /* ── MODAL DE AGENDAMENTO ── */
         .agenda-modal { background: #ffffff; width: 950px; max-width: 95vw; height: 500px; border-radius: 6px; box-shadow: 0 15px 50px rgba(0,0,0,0.3); display: flex; overflow: hidden; font-family: "Montserrat", Arial, sans-serif; }
         .agenda-left { width: 360px; padding: 40px; border-right: 1px solid #f0f0f0; display: flex; flex-direction: column; overflow-y: auto; }
         .agenda-title-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; }
@@ -393,7 +387,7 @@ export default function SimuladosPage({ setActiveNav }) {
         .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -4px; border-width: 4px; border-style: solid; border-color: #081724 transparent transparent transparent; }
         .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; bottom: 130%; }
 
-        /* â”€â”€ MODAL DICIONÃRIO JURÃDICO ATUALIZADO â”€â”€ */
+        /* ── MODAL DICIONÁRIO JURÍDICO ATUALIZADO ── */
         .dict-window { background: #ffffff; width: 1100px; max-width: 95vw; height: 600px; border-radius: 8px; border: 1px solid #b5b5b5; box-shadow: 0 10px 40px rgba(0,0,0,0.15); display: flex; padding: 40px; gap: 40px; position: relative; box-sizing: border-box; }
         
         .dict-left-panel { width: 300px; display: flex; flex-direction: column; box-sizing: border-box; }
@@ -401,14 +395,14 @@ export default function SimuladosPage({ setActiveNav }) {
         .dict-search-input:focus { border-color: #1c2b44; }
         .dict-search-input::placeholder { color: #999; text-transform: uppercase; }
         
-        /* Nova Coluna Flex para empilhar os botÃµes na esquerda */
+        /* Nova Coluna Flex para empilhar os botões na esquerda */
         .dict-categories-flex { display: flex; flex-direction: column; gap: 10px; }
         .btn-dict-category { font-family: inherit; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: all 0.2s; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.4; padding: 12px 10px; width: 100%; }
         .btn-dict-category.active { background: #081724; color: #ffffff; border: 2px solid #081724; box-shadow: 0 4px 10px rgba(8, 23, 36, 0.2); }
         .btn-dict-category.inactive { background: #ffffff; color: #081724; border: 2px solid #1c2b44; }
         .btn-dict-category.inactive:hover { background: #f0f4f8; }
         
-        /* Painel Direito (Com position relative para o popup nascer SÃ“ AQUI) */
+        /* Painel Direito (Com position relative para o popup nascer SÓ AQUI) */
         .dict-right-panel { flex: 1; border: 1px solid #b5b5b5; border-radius: 6px; padding: 30px; overflow-y: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; align-content: start; background: #ffffff; position: relative; box-sizing: border-box; }
         .dict-term-btn { background: #ffffff; border: 2px solid #1c2b44; color: #1c2b44; border-radius: 5px; font-family: inherit; font-size: 13px; font-weight: 600; text-align: center; padding: 15px 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; min-height: 55px; box-sizing: border-box; }
         .dict-term-btn:hover { background: #1c2b44; color: #ffffff; }
@@ -430,8 +424,8 @@ export default function SimuladosPage({ setActiveNav }) {
   .agenda-modal { flex-direction: column; height: 85vh; overflow-y: auto; }
   .agenda-left { width: 100%; border-right: none; border-bottom: 1px solid #f0f0f0; padding: 25px; overflow-y: visible; }
   
-  /* â”€â”€ RESPONSIVIDADE DO DICIONÃRIO (TABLET) â”€â”€ */
-  /* MantÃ©m lado a lado de forma compacta para aproveitar o espaÃ§o horizontal */
+  /* ── RESPONSIVIDADE DO DICIONÁRIO (TABLET) ── */
+  /* Mantém lado a lado de forma compacta para aproveitar o espaço horizontal */
   .dict-window { flex-direction: row; height: 85vh; padding: 25px; gap: 25px; }
   .dict-left-panel { width: 240px; height: 100%; border-right: 1px solid #e0e0e0; padding-right: 15px; }
   .dict-categories-flex { flex-direction: column; gap: 10px; }
@@ -459,12 +453,12 @@ export default function SimuladosPage({ setActiveNav }) {
   .cal-day-num { font-size: 11px; }
   .tag-simulado, .tag-prova { font-size: 8px; padding: 1px 3px; }
   
-  /* â”€â”€ RESPONSIVIDADE DO DICIONÃRIO (MOBILE) â”€â”€ */
+  /* ── RESPONSIVIDADE DO DICIONÁRIO (MOBILE) ── */
   /* Passa a ser coluna, mas com rolagem horizontal nas categorias para poupar tela */
   .dict-window { flex-direction: column; height: 90vh; width: 95vw; padding: 15px; gap: 15px; }
   .dict-left-panel { width: 100%; height: auto; border-right: none; border-bottom: 1px solid #e0e0e0; padding-bottom: 12px; }
   
-  /* Cria uma trilha horizontal de pÃ­lulas deslizÃ¡veis por toque */
+  /* Cria uma trilha horizontal de pílulas deslizáveis por toque */
   .dict-categories-flex { 
     flex-direction: row !important; 
     overflow-x: auto; 
@@ -478,7 +472,7 @@ export default function SimuladosPage({ setActiveNav }) {
   
   .btn-dict-category { 
     width: auto !important; 
-    flex: 0 0 auto !important; /* Impede que o botÃ£o encolha ou deforme */
+    flex: 0 0 auto !important; /* Impede que o botão encolha ou deforme */
     padding: 8px 16px; 
     border-radius: 20px; 
     font-size: 13px;
@@ -519,7 +513,7 @@ export default function SimuladosPage({ setActiveNav }) {
                 className="btn-header btn-dicionario"
                 onClick={() => setIsDictionaryOpen(true)}
               >
-                DICIONÃRIO JURÃDICO
+                DICIONÁRIO JURÍDICO
               </button>
               <button 
                 className="btn-header btn-aprendizado"
@@ -537,19 +531,17 @@ export default function SimuladosPage({ setActiveNav }) {
                   <p className="card-title">{item.type} - {item.date}</p>
                   <p className="card-subject">{item.subject}</p>
                   {completedSimulados[item.id] && (
-                    <span className="card-performance">
+                    <div className="card-performance">
                       {completedSimulados[item.id].correct}/{completedSimulados[item.id].total} Acertos
-                    </span>
+                    </div>
                   )}
                 </div>
-                <button
-                  className="btn-iniciar"
+                <button 
+                  className="btn-iniciar" 
                   onClick={() => {
-                    setActiveSimulado(item);
                     setActiveQuestionIndex(0);
-                    setSelectedOption(null);
-                    setFeedback(null);
                     setAnswersLog({});
+                    setActiveSimulado(item);
                   }}
                 >
                   {completedSimulados[item.id] ? "REFAZER" : "INICIAR"}
@@ -557,79 +549,107 @@ export default function SimuladosPage({ setActiveNav }) {
               </div>
             ))}
 
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div key={`placeholder-${index}`} className="placeholder-card">
-                <svg width="34" height="42" viewBox="0 0 24 30" fill="none">
-                  <rect x="5" y="13" width="14" height="12" rx="2" fill="#eeeeee" />
-                  <path d="M8 13V9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9V13" stroke="#eeeeee" strokeWidth="2" strokeLinecap="round" />
-                  <circle cx="12" cy="18" r="1.5" fill="#bfbfbf" />
-                </svg>
-              </div>
-            ))}
+            <div className="placeholder-card">
+               <svg width="60" height="60" viewBox="0 0 64 64" fill="none">
+                 <rect x="18" y="24" width="28" height="36" rx="4" fill="#8c8c8c" />
+                 <rect x="12" y="18" width="28" height="36" rx="4" fill="#757575" />
+                 <rect x="18" y="26" width="16" height="3" rx="1.5" fill="#a0a0a0" />
+                 <rect x="18" y="33" width="16" height="3" rx="1.5" fill="#a0a0a0" />
+                 <rect x="18" y="40" width="16" height="3" rx="1.5" fill="#a0a0a0" />
+                 <rect x="18" y="47" width="10" height="3" rx="1.5" fill="#a0a0a0" />
+               </svg>
+            </div>
           </div>
         </div>
       </div>
 
-      {activeSimulado && (
+      {/* ── MODAL DICIONÁRIO JURÍDICO ── */}
+      {isDictionaryOpen && (
         <div className="modal-overlay" onClick={handleOverlayClick}>
-          <div className="simulado-window" onClick={(e) => e.stopPropagation()}>
-            <div className="simulado-header-bar">
-              {activeSimulado.type} - {activeSimulado.subject}
+          <div className="dict-window" onClick={e => e.stopPropagation()}>
+            
+            {/* Painel Esquerdo com Pesquisa e 4 Botões Empilhados */}
+            <div className="dict-left-panel">
+              <input 
+                type="text" 
+                className="dict-search-input" 
+                placeholder="Buscar pelo nome..." 
+                value={dictSearch}
+                onChange={e => setDictSearch(e.target.value)}
+              />
+
+              <div className="dict-categories-flex">
+                <button 
+                  className={`btn-dict-category ${dictCategory === 'latim' ? 'active' : 'inactive'}`}
+                  onClick={() => { setDictCategory('latim'); setSelectedTerm(null); }}
+                >
+                  LATIM
+                </button>
+                <button 
+                  className={`btn-dict-category ${dictCategory === 'juridico' ? 'active' : 'inactive'}`}
+                  onClick={() => { setDictCategory('juridico'); setSelectedTerm(null); }}
+                >
+                  TERMOS JURÍDICOS
+                </button>
+                <button 
+                  className={`btn-dict-category ${dictCategory === 'civil' ? 'active' : 'inactive'}`}
+                  onClick={() => { setDictCategory('civil'); setSelectedTerm(null); }}
+                >
+                  DIREITO CIVIL
+                </button>
+                <button 
+                  className={`btn-dict-category ${dictCategory === 'penal' ? 'active' : 'inactive'}`}
+                  onClick={() => { setDictCategory('penal'); setSelectedTerm(null); }}
+                >
+                  DIREITO PENAL
+                </button>
+              </div>
             </div>
-            <div className="simulado-body">
-              <aside className="simulado-sidebar">
-                {activeSimulado.questions.map((question, index) => (
-                  <div
-                    key={question.id}
-                    className={`question-item ${index === activeQuestionIndex ? 'active' : ''}`}
-                    onClick={() => handleQuestionChange(index)}
+
+            {/* Painel Direito (Onde nasce o popup de explicação) */}
+            <div className="dict-right-panel">
+              {filteredTerms.map(t => (
+                <button 
+                  key={t.id} 
+                  className="dict-term-btn"
+                  onClick={() => setSelectedTerm(t)}
+                >
+                  {t.term}
+                </button>
+              ))}
+              {filteredTerms.length === 0 && (
+                <p style={{ gridColumn: 'span 2', color: '#888', fontSize: '14px', textAlign: 'center', marginTop: '20px' }}>
+                  Nenhum termo encontrado.
+                </p>
+              )}
+
+              {/* Box Flutuante de Explicação Restrito ao Card Direito */}
+              {selectedTerm && (
+                <div className="explanation-box">
+                  <h3 className="explanation-term">{selectedTerm.term}</h3>
+                  <p className="explanation-desc">{selectedTerm.definition}</p>
+                  <button 
+                    className="btn-close-explanation"
+                    onClick={() => setSelectedTerm(null)}
                   >
-                    <span className={`status-box status-${answersLog[question.id] || 'pending'}`}></span>
-                    <span className="question-label">{question.title}</span>
-                  </div>
-                ))}
-              </aside>
-
-              <section className="simulado-content">
-                <h2 className="question-title">{activeSimulado.questions[activeQuestionIndex].title}</h2>
-                <p className="question-text">{activeSimulado.questions[activeQuestionIndex].text}</p>
-
-                <div className="options-container">
-                  {Object.entries(activeSimulado.questions[activeQuestionIndex].options).map(([letter, text]) => (
-                    <button
-                      key={letter}
-                      className={`option-btn ${selectedOption === letter ? 'selected' : ''}`}
-                      onClick={() => !feedback && setSelectedOption(letter)}
-                      disabled={Boolean(feedback)}
-                    >
-                      <span className="option-letter">{letter}</span>
-                      {text}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="btn-enviar-wrapper">
-                  {feedback && (
-                    <span className={`feedback-msg ${feedback.isCorrect ? 'feedback-success' : 'feedback-error'}`}>
-                      {feedback.message}
-                    </span>
-                  )}
-                  <button className="btn-enviar" onClick={handleEnviar} disabled={!selectedOption || Boolean(feedback)}>
-                    ENVIAR
+                    FECHAR
                   </button>
                 </div>
-              </section>
+              )}
             </div>
+
           </div>
         </div>
       )}
 
+      {/* ── MODAL AGENDAMENTO E CALENDÁRIO ── */}
       {isCalendarOpen && (
         <div className="modal-overlay" onClick={handleOverlayClick}>
-          <div className="agenda-modal" onClick={(e) => e.stopPropagation()}>
-            <aside className="agenda-left">
+          <div className="agenda-modal" onClick={e => e.stopPropagation()}>
+            
+            <div className="agenda-left">
               <div className="agenda-title-wrapper">
-                <h2 className="agenda-title">AGENDAR PROVA</h2>
+                <h2 className="agenda-title">AGENDAR - PROVAS</h2>
               </div>
 
               <button className="btn-add-prova" onClick={handleAddClick}>+</button>
@@ -637,19 +657,20 @@ export default function SimuladosPage({ setActiveNav }) {
               {isAddingProva && (
                 <div className="prova-form-card">
                   <div className="form-row-top">
-                    <select
+                    <select 
                       className="form-select"
-                      value={provaForm.subject}
-                      onChange={(e) => setProvaForm({ ...provaForm, subject: e.target.value })}
+                      value={provaForm.subject} 
+                      onChange={e => setProvaForm({...provaForm, subject: e.target.value})}
                     >
-                      <option>Ciência Politica</option>
-                      <option>Direito Constitucional</option>
-                      <option>Teoria Geral do Processo</option>
-                      <option>Filosofia do Direito</option>
+                      <option value="Ciência Politica">Ciência Politica</option>
+                      <option value="Direito Civil">Direito Civil</option>
+                      <option value="Direito Penal">Direito Penal</option>
                     </select>
-                    <input
-                      className="form-input"
-                      placeholder="DD/MM/AA"
+                    <input 
+                      type="text" 
+                      className="form-input" 
+                      placeholder="dd/mm/aa" 
+                      maxLength="8"
                       value={provaForm.date}
                       onChange={handleDateChange}
                     />
@@ -667,83 +688,110 @@ export default function SimuladosPage({ setActiveNav }) {
                     <span className="prova-item-date">{prova.date}</span>
                   </div>
                   <div className="prova-item-actions">
-                    <button className="action-btn" onClick={() => handleEditClick(prova)}>Editar</button>
-                    <button className="action-btn" onClick={() => handleDeleteClick(prova.id)}>Excluir</button>
+                    <button className="action-btn" onClick={() => handleEditClick(prova)}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                      </svg>
+                    </button>
+                    <button className="action-btn" onClick={() => handleDeleteClick(prova.id)}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               ))}
-            </aside>
+            </div>
 
-            <section className="agenda-right">
+            <div className="agenda-right">
               <div className="cal-header-bar">
                 <button className="cal-nav-btn" onClick={prevMonth}>‹</button>
                 <div className="cal-title-block">
-                  <h2 className="cal-month">{monthNames[currentDateView.getMonth()]}</h2>
+                  <h3 className="cal-month">{monthNames[currentDateView.getMonth()]}</h3>
                   <div className="cal-year">{currentDateView.getFullYear()}</div>
                 </div>
                 <button className="cal-nav-btn" onClick={nextMonth}>›</button>
               </div>
 
               <div className="cal-grid-headers">
-                {['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM'].map((day) => (
-                  <span key={day} className="cal-header-day">{day}</span>
-                ))}
+                <div className="cal-header-day">SEG</div>
+                <div className="cal-header-day">TER</div>
+                <div className="cal-header-day">QUA</div>
+                <div className="cal-header-day">QUI</div>
+                <div className="cal-header-day">SEX</div>
+                <div className="cal-header-day">SÁB</div>
+                <div className="cal-header-day">DOM</div>
               </div>
-              <div className="cal-grid">{renderDays()}</div>
-            </section>
+
+              <div className="cal-grid">
+                {renderDays()}
+              </div>
+            </div>
+
           </div>
         </div>
       )}
 
-      {isDictionaryOpen && (
+      {/* ── MODAL DO SIMULADO ── */}
+      {activeSimulado && activeSimulado.questions && activeSimulado.questions.length > 0 && (
         <div className="modal-overlay" onClick={handleOverlayClick}>
-          <div className="dict-window" onClick={(e) => e.stopPropagation()}>
-            <aside className="dict-left-panel">
-              <input
-                className="dict-search-input"
-                placeholder="Pesquisar termo"
-                value={dictSearch}
-                onChange={(e) => setDictSearch(e.target.value)}
-              />
-
-              <div className="dict-categories-flex">
-                {[
-                  ['latim', 'Latim'],
-                  ['juridico', 'Jurídico'],
-                  ['civil', 'Direito Civil'],
-                  ['penal', 'Direito Penal']
-                ].map(([value, label]) => (
-                  <button
-                    key={value}
-                    className={`btn-dict-category ${dictCategory === value ? 'active' : 'inactive'}`}
-                    onClick={() => {
-                      setDictCategory(value);
-                      setSelectedTerm(null);
-                    }}
-                  >
-                    {label}
-                  </button>
-                ))}
+          <div className="simulado-window" onClick={e => e.stopPropagation()}>
+            <div className="simulado-header-bar">
+              SIMULADO {activeSimulado.date} - {activeSimulado.subject}
+            </div>
+            
+            <div className="simulado-body">
+              <div className="simulado-sidebar">
+                {activeSimulado.questions.map((q, index) => {
+                  const finalStatus = answersLog[q.id] || q.status;
+                  return (
+                    <div 
+                      key={q.id} 
+                      className={`question-item ${activeQuestionIndex === index ? 'active' : ''}`} 
+                      onClick={() => handleQuestionChange(index)}
+                    >
+                      <div className={`status-box status-${finalStatus}`}></div>
+                      <span className="question-label">[X] {q.title}</span>
+                    </div>
+                  );
+                })}
               </div>
-            </aside>
 
-            <section className="dict-right-panel">
-              {filteredTerms.map((term) => (
-                <button key={term.id} className="dict-term-btn" onClick={() => setSelectedTerm(term)}>
-                  {term.term}
-                </button>
-              ))}
+              <div className="simulado-content">
+                <h2 className="question-title">{activeSimulado.questions[activeQuestionIndex].title}</h2>
+                <p className="question-text">
+                  {activeSimulado.questions[activeQuestionIndex].text}
+                </p>
+                
+                <div className="options-container">
+                  {Object.entries(activeSimulado.questions[activeQuestionIndex].options).map(([key, text]) => (
+                    <button 
+                      key={key} 
+                      className={`option-btn ${selectedOption === key ? 'selected' : ''}`}
+                      onClick={() => !feedback && setSelectedOption(key)} 
+                    >
+                      <span className="option-letter">{key})</span> {text}
+                    </button>
+                  ))}
+                </div>
 
-              {selectedTerm && (
-                <div className="explanation-box">
-                  <h3 className="explanation-term">{selectedTerm.term}</h3>
-                  <p className="explanation-desc">{selectedTerm.definition}</p>
-                  <button className="btn-close-explanation" onClick={() => setSelectedTerm(null)}>
-                    VOLTAR
+                <div className="btn-enviar-wrapper">
+                  {feedback && (
+                    <span className={`feedback-msg ${feedback.isCorrect ? 'feedback-success' : 'feedback-error'}`}>
+                      {feedback.message}
+                    </span>
+                  )}
+                  <button 
+                    className="btn-enviar" 
+                    onClick={handleEnviar}
+                    disabled={!selectedOption || feedback !== null} 
+                  >
+                    ENVIAR
                   </button>
                 </div>
-              )}
-            </section>
+              </div>
+            </div>
           </div>
         </div>
       )}
